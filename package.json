@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests/*.js",
+    "test": "mocha tests/*.js --exit",
     "start": "pm2 start server.js",
     "stop": "pm2 stop server"
   },
