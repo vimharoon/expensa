@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/MrWOLFF24/expensa.svg?branch=master)](https://travis-ci.com/MrWOLFF24/expensa)
 # expensa
 
-![Alt text](./public/assets/images/favicon.ico | width=50)
+<img src="./public/assets/images/favicon.ico" width="50">
 
 Hi! **EXPENSA** is a budget management application. The purpose of the application is to simplify the controle of your expenses and make Your life easy.
 
