@@ -19,15 +19,15 @@ Node.js: https://nodejs.org/en/download/
 ### Installing
 A step by step series of examples that tell you how to get a development env running
 
-Clone repo with this command (make sur you have git installed on your machine)
+1. Clone repo with this command (make sur you have git installed on your machine)
 ```
 git clone https://github.com/MrWOLFF24/expensa.git
 ```
-Install dependencies
+2. Install dependencies
 ```
 cd expensa && npm install
 ```
-Run project
+3. Run project
 ```
 npm start
 ```
