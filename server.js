@@ -1,4 +1,4 @@
-'use strict';  // /!\  -i max for pm2
+'use strict';
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
@@ -26,6 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.listen(process.env.PORT || 8000);
-// console.log(`server running on port http://localhost:8000`);
+console.log(`server running on port http://localhost:8000`);
 
 module.exports = app;
