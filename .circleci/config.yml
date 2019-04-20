@@ -37,6 +37,10 @@ jobs:
             sudo service mysql start
             sleep 2
             ps aux | grep mysql
+      - run:
+          name: Create non-admin user
+          command: |
+            sudo mysql -u root -p -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       # Download and cache dependencies
       - restore_cache:
