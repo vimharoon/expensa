@@ -9,6 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:lts
         environment:
+            MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: password
             MYSQL_HOST: 127.0.0.1
 
@@ -40,7 +41,7 @@ jobs:
       - run:
           name: Create non-admin user
           command: |
-            sudo mysql --user=root --password=password -e "CREATE user myuser IDENTIFIED BY 'password';"
+            sudo mysql -u root -p password -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       # Download and cache dependencies
       - restore_cache:
