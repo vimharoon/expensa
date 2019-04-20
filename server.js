@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 app.use('/website', express.static('public'));
 
 app.get('/', (req, res) => {
-  res.send('ci with travis');
+  res.send('ci with cercleci');
 });
 
 // use body parser middlewares to parse request
