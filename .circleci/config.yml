@@ -8,6 +8,9 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:lts
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_HOST: 127.0.0.1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -19,8 +22,25 @@ jobs:
     steps:
       - checkout
 
-      # Install mysql-client
-      - run: sudo apt install -y mysql-client || true
+      # Install mysql
+      - run:
+          name: Install mysql
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y libzip-dev
+            sudo apt-get install -y zlib1g-dev libicu-dev g++
+            sudo apt-get install mysql-client
+            sudo apt-get -y install mysql-server
+      - run:
+          name: Start database server
+          command: |
+            sudo service mysql start
+            sleep 2
+            ps aux | grep mysql
+      - run:
+          name: Create non-admin user
+          command: |
+            sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       # Download and cache dependencies
       - restore_cache:
