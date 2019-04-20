@@ -8,16 +8,25 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:lts
-
+        environment:
+          NODE_ENV: test
+          MYSQLHOST: 127.0.0.1
+          MYSQLUSER: root
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_USER: root
+          MYSQL_DB: circle-test
 
     working_directory: ~/repo
 
     steps:
       - checkout
+
+      # Install mysql-client
+      - run: sudo apt install -y mysql-client || true
 
       # Download and cache dependencies
       - restore_cache:
