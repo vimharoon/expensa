@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/MrWOLFF24/expensa.svg?branch=master)](https://travis-ci.com/MrWOLFF24/expensa)
+[![CircleCI](https://circleci.com/gh/MrWOLFF24/expensa.svg?style=svg)](https://circleci.com/gh/MrWOLFF24/expensa)
 # expensa
 
 <p align="center">
