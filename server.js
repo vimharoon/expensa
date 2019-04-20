@@ -4,6 +4,7 @@ const app = express();
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const boom = require('express-boom');
+const cors = require('cors');
 const morgan = require('morgan');
 // this will disable etag header for all requests
 app.disable('etag').disable('x-powered-by');
@@ -25,6 +26,12 @@ app.use(morgan('dev'));
 // use body parser middlewares to parse request
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// set cors (Cross-origin resource sharing) config
+app.use(cors({
+  origin: 'http://localhost:8080',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 
 // serve static files
 app.use('/website', express.static('public'));
