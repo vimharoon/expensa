@@ -9,14 +9,21 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:lts
         environment:
-            MYSQL_USER: root
-            MYSQL_ROOT_PASSWORD: password
-            MYSQL_HOST: 127.0.0.1
+            DB_HOST: 127.0.0.1
+            DB_USER: root
+            DB_PASSWORD: password
+            DB_DATABASE: circle_test
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:latest
+      - image: circleci/mysql:latest
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: true
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_USER: root
+            MYSQL_PASSWORD: password
+            MYSQL_DATABASE: circle_test
 
     working_directory: ~/repo
 
@@ -28,20 +35,7 @@ jobs:
           name: Install mysql
           command: |
             sudo apt-get update
-            sudo apt-get install -y libzip-dev
-            sudo apt-get install -y zlib1g-dev libicu-dev g++
             sudo apt-get install mysql-client
-            sudo apt-get -y install mysql-server
-      - run:
-          name: Start database server
-          command: |
-            sudo service mysql start
-            sleep 2
-            ps aux | grep mysql
-      - run:
-          name: Create non-admin user
-          command: |
-            sudo mysql -u root -p password -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       # Download and cache dependencies
       - restore_cache:
