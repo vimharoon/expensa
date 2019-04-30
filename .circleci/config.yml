@@ -11,7 +11,7 @@ jobs:
         environment:
             DB_HOST: 127.0.0.1
             DB_USER: root
-            DB_PASSWORD: password
+            DB_PASSWORD: passw0rd
             DB_DATABASE: circle_test
 
       # Specify service dependencies here if necessary
@@ -20,9 +20,9 @@ jobs:
       - image: circleci/mysql:5.7
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: true
-            MYSQL_ROOT_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: rootpw
             MYSQL_USER: root
-            MYSQL_PASSWORD: password
+            MYSQL_PASSWORD: passw0rd
             MYSQL_DATABASE: circle_test
 
     working_directory: ~/repo
@@ -32,7 +32,7 @@ jobs:
 
       # Install mysql
       - run:
-          name: Install mysql
+          name: Install mysql-client
           command: |
             sudo apt-get update
             sudo apt-get install mysql-client
@@ -47,6 +47,12 @@ jobs:
       - run:
           name: install-dependencies
           command: npm install
+
+      - run:
+          name: Install MySQL CLI
+          command: |
+            sudo apt-get install mysql-client
+            mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT 1 + 1 AS solution"
 
       - save_cache:
           paths:
