@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/MrWOLFF24/expensa.svg?style=svg)](https://circleci.com/gh/MrWOLFF24/expensa)
+[![Build Status](http://51.15.194.138:4000/buildStatus/icon?job=expensa%2Fmaster)](http://51.15.194.138:4000/job/expensa/job/master/)
 # expensa
 
 <p align="center">
