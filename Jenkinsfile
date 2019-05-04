@@ -4,10 +4,9 @@ pipeline {
     stage('server connection') {
       steps {
         sh 'echo "Test connection to server"'
-        sh 'ssh expensa@51.15.194.138'
-        sh '''node -v
-npm -v
-'''
+        sh '''ssh expensa@51.15.194.138
+node -v
+npm -v'''
       }
     }
     stage('Pull sources') {
