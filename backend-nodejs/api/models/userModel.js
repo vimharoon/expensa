@@ -7,20 +7,20 @@ const getUsers = (clbk, id) => {
 
   if (id) {
     q = `SELECT
-            id, username, email, avatar, created_at, about, is_admin
+            user_id, username, email, avatar, created_at, is_verified, about, is_admin
         FROM
             users
         WHERE
             id = ${mysql.escape(id)}`;
   } else {
     q = `SELECT
-            id, username, email, avatar, created_at, about, is_admin
+            user_id, username, email, avatar, created_at, is_verified, about, is_admin
         FROM
             users`;
   }
 
   mysql.query(q, (error, results, fields) => {
-    if (error) throw Boom.badRequest(error);; // in case of query error, an an exception is thrown
+    if (error) throw error; // in case of query error, an exception is thrown
     clbk(results);
   });
 };

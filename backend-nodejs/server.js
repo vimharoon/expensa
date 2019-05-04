@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
 const boom = require('express-boom');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -29,12 +30,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // set cors (Cross-origin resource sharing) config
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: process.env.ORIGIN_URL,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
-// serve static files
-app.use('/website', express.static('public'));
+// serve icon
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // prefix all routes with '/api/v1'
 app.use('/api/v1/', routes);
@@ -44,6 +45,6 @@ app.use((req, res) => {
 });
 
 app.listen(process.env.PORT || 8000);
-console.log(`server running on port http://localhost:8000`);
+console.log(`server running on port http://localhost:${process.env.PORT}`);
 
 module.exports = app;
