@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh 'echo "Test connection to server"'
         sh 'ssh expensa@51.15.194.138'
-        sh 'cd /workspace && ls'
+        sh 'cd / && ls'
       }
     }
     stage('Pull sources') {
