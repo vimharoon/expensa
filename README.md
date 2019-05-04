@@ -23,11 +23,21 @@ A step by step series of examples that tell you how to get a development env run
 ```
 git clone https://github.com/MrWOLFF24/expensa.git
 ```
-2. Install dependencies
+2. Install dependencies for back-end
 ```
-cd expensa && npm install
+cd backend-nodejs && npm install
 ```
 3. Run project
+```
+npm start
+```
+
+For front-end
+1. Install dependencies for front-end
+```
+cd frontend-vuejs && npm install
+```
+2. Run project
 ```
 npm start
 ```
