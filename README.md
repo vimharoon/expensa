@@ -1,4 +1,4 @@
-[![Build Status](http://51.15.194.138:4000/buildStatus/icon?job=expensa%2Fmaster)](http://51.15.194.138:4000/job/expensa/job/master/)
+[![Build Status](http://178.62.206.17:8080/buildStatus/icon?job=expensa%2Fmaster)](http://178.62.206.17:8080/job/expensa/job/master/)
 # expensa
 
 <p align="center">
