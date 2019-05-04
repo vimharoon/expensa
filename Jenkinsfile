@@ -1,18 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('Verify Tools') {
-      parallel {
-        stage('server connection') {
-          steps {
-            sh 'echo "Test connection to server"'
-          }
-        }
-        stage('check node/npm version') {
-          steps {
-            echo 'check nodejs/npm version'
-          }
-        }
+    stage('server connection') {
+      steps {
+        sh 'echo "Test connection to server"'
       }
     }
     stage('Pull sources') {
