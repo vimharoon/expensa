@@ -2,7 +2,7 @@
 # expensa
 
 <p align="center">
-  <img src="./public/assets/favicon.ico" width="100" height="100">
+  <img src="./public/favicon.ico" width="100" height="100">
 </p>
 Hi! **EXPENSA** is a budget management application. The purpose of the application is to simplify the controle of your expenses and make Your life easy.
 
