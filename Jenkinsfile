@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh 'echo "Test connection to server"'
         sh 'ssh expensa@51.15.194.138'
-        sh 'cd / && ls'
+        sh 'cd /var/www/api.haroonmohammad.com/ && ls'
       }
     }
     stage('Pull sources') {
