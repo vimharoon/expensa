@@ -3,12 +3,12 @@ pipeline {
   stages {
     stage('Verify Tools') {
       parallel {
-        stage('Verify Tools') {
+        stage('server connection') {
           steps {
             echo 'connect to server'
           }
         }
-        stage('') {
+        stage('check node/npm version') {
           steps {
             echo 'check nodejs/npm version'
           }
