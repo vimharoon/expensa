@@ -5,7 +5,7 @@ pipeline {
       parallel {
         stage('server connection') {
           steps {
-            echo 'connect to server'
+            sh 'echo "Test connection to server"'
           }
         }
         stage('check node/npm version') {
