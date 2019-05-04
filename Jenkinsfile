@@ -5,7 +5,9 @@ pipeline {
       steps {
         sh 'echo "Test connection to server"'
         sh 'ssh expensa@51.15.194.138'
-        sh 'ls /var/www/api.haroonmohammad.com/nodejs-api/'
+        sh '''node -v
+npm -v
+'''
       }
     }
     stage('Pull sources') {
