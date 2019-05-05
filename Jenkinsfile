@@ -36,15 +36,5 @@ EOF'''
         echo 'deploy app / restart server'
       }
     }
-    stage('Verify') {
-      steps {
-        echo 'verify all good !'
-      }
-    }
-    stage('Clean') {
-      steps {
-        echo 'clean up files'
-      }
-    }
   }
 }
