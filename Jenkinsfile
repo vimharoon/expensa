@@ -5,10 +5,10 @@ pipeline {
       steps {
         sh 'echo "Test connection to server"'
         sh '''ssh expensa@51.15.194.138 <<EOF
- cd ~/var/www/api.haroonmohammad.com/nodejs-api/
- ls
- exit
-EOF'''
+            cd ~/var/www/api.haroonmohammad.com/nodejs-api/
+            ls
+            exit
+          EOF'''
       }
     }
     stage('Pull sources') {
