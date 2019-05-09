@@ -3,9 +3,11 @@ const express = require('express');
 const app = express();
 
 // imports routes
-const usersRoutes = require('./users/usersRoute');
+const usersRoutes = require('./usersRoute');
+const authRoutes = require('./authRoute');
 
 // set routes in application
+app.use('/auth', authRoutes);
 app.use('/users', usersRoutes);
 
 app.use('*', (req, res) => {
