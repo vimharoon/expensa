@@ -5,11 +5,12 @@ const app = express();
 // imports routes
 const authRoutes = require('./authRoute');
 const usersRoutes = require('./usersRoute');
-//const tasksRoutes = require('');
+const tasksRoutes = require('./tasksRoute');
 const transactionsRoutes = require('./transactionsRoute');
 
 // set routes in application
 app.use('/auth', authRoutes);
+app.use('/tasks', tasksRoutes);
 app.use('/users', usersRoutes);
 app.use('/transactions', transactionsRoutes);
 
