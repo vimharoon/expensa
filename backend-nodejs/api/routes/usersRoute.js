@@ -7,24 +7,24 @@ const usersController = require('./../controllers/usersController');
 const checkAuth = require('./../middlewares/check-auth');
 
 // get all users
-router.get('/', usersController.getUsers);
+router.get('/', checkAuth, usersController.getUsers);
 
 // get user by id
-router.get('/:id', usersController.getUserById);
+router.get('/:id', checkAuth, usersController.getUserById);
 
 // update user informations
-router.put('/', usersController.updateUserInfo);
+router.put('/', checkAuth, usersController.updateUserInfo);
 
 // patch user about informations
-router.patch('/about/:id', usersController.updateUserAbout);
+router.patch('/about/:id', checkAuth, usersController.updateUserAbout);
 
 // patch user about informations
-router.patch('/avatar/:id', usersController.updateUserAvatar);
+router.patch('/avatar/:id', checkAuth, usersController.updateUserAvatar);
 
 // patch user about informations
-router.patch('/password', usersController.updateUserPassword);
+router.patch('/password', checkAuth, usersController.updateUserPassword);
 
 // delete user by id
-router.delete('/:id', usersController.removeUser);
+router.delete('/:id', checkAuth, usersController.removeUser);
 
 module.exports = router;

@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "mocha tests/*.js --exit",
-    "production": "pm2 start server.js -i max",
-    "start": "nodemon start server.js"
+    "production": "NODE_ENV=production pm2 start server.js -i max",
+    "start": "NODE_ENV=development nodemon start server.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/MrWOLFF24/expensa#readme",
   "dependencies": {
+    "@hapi/joi": "^15.0.2",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",

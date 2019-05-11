@@ -7,15 +7,15 @@ const transactionsController = require('./../controllers/transactionController')
 const checkAuth = require('./../middlewares/check-auth');
 
 // get transactions
-router.get('/:user_id', transactionsController.getTransactions);
+router.get('/:user_id', checkAuth, transactionsController.getTransactions);
 
 // create new transaction
-router.post('/', transactionsController.createTransaction);
+router.post('/', checkAuth, transactionsController.createTransaction);
 
 // upate a transaction
-router.put('/:id', transactionsController.updateTransaction);
+router.put('/:id', checkAuth, transactionsController.updateTransaction);
 
 // upate a transaction
-router.delete('/:id', transactionsController.removeTransaction);
+router.delete('/:id', checkAuth, transactionsController.removeTransaction);
 
 module.exports = router;

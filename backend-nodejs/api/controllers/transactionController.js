@@ -3,9 +3,10 @@ const transactionsModel = require('./../models/transactionsModel');
 
 // get all transactions
 const getTransactions = (req, res) => {
+  console.log(req.userData);
   transactionsModel.getTransactions(response => {
     res.status(200).send(response);
-  }, req.params.user_id);
+  }, req.userData.user.user_id);
 };
 
 // create new transaction

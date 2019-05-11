@@ -5,7 +5,7 @@ const taskModel = require('./../models/tasksModel');
 const getTasks = (req, res) => {
   taskModel.getTasks(response => {
     res.status(200).send(response);
-  }, req.params.user_id);
+  }, req.userData.user.user_id);
 };
 
 // create a new task

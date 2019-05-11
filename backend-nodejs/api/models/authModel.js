@@ -6,12 +6,17 @@ const authHelpers = require('./../util/authHelpers');
 // register new user
 const register = (clbk, data) => {
   authHelpers.checkMail(res => {
-    if (res[0].count > 0) {
-      // this email address already exists
+    if (res[0].email > 0) { // this email address already exists
       return clbk({
         error: true,
-        message:
-          'Un compte avec le même adresse email existe déjà. veuillez ressaisir vos informations',
+        status: 4091,
+        message: 'Un compte avec le même adresse email existe déjà. veuillez ressaisir vos informations',
+      });
+    } else if (res[0].username > 0) {
+      return clbk({
+        error: true,
+        status: 4092,
+        message: 'Le nom d\'utilisateur existe déjà. veuillez ressaisir vos informations',
       });
     };
     // the database does not yet contain this email address, let's continue the insertion
@@ -28,10 +33,10 @@ const register = (clbk, data) => {
     mysql.query(q, (error, results, fields) => {
       if (error) throw error;
       results.error = false;
-      results.message = 'vous êtes bien enregistré, veuillez confirmer votre adresse email pour vous connecter.';
+      results.message = 'vous êtes bien enregistré, veuillez confirmer votre adresse email pour vous connecter';
       clbk(results);
     });
-  }, data.email, mysql);
+  }, data.email, data.username, mysql);
 };
 
 // authenticate user
@@ -63,7 +68,7 @@ const authenticate = (clbk, data) => {
         } else {
           res.error = true;
           delete res.password;
-          res.message = 'Votre email ou mot de passe est invalid';
+          res.message = 'Votre email ou mot de passe est incorrecte';
           clbk(res);
         }
       });
@@ -73,7 +78,25 @@ const authenticate = (clbk, data) => {
   });
 };
 
+const forgotPassword = (clbk, data) => {
+  authHelpers.checkMail(res => {
+    if (res[0].email === 1) { // this email address exists
+      return clbk({
+        error: false,
+        email: data.email,
+        message: `Un mail vient de vous être envoyé sur l\'adresse: ${data.email}`
+      });
+    } else {
+      return clbk({
+        error: true,
+        message: 'Cette adresse email n\'existe pas. veuillez verifier que votre email est correcte'
+      });
+    }
+  }, data.email, null, mysql);
+};
+
 module.exports = {
   register,
   authenticate,
+  forgotPassword,
 };
