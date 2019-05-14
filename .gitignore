@@ -60,6 +60,7 @@ typings/
 
 # dotenv environment variables file
 .env
+Jenkinsfile
 
 # next.js build output
 .next
