@@ -11,12 +11,10 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-if (process.env.NODE_ENV === 'development') {
-  // dummy function to verify if database connection is establish successfuly
-  connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
-    if (error) throw error;
-    console.log('DATABASE SAYS => The solution is', results[0].solution);
-  });
-}
+// dummy function to verify if database connection is establish successfuly
+connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
+  if (error) throw error;
+  console.log('DATABASE SAYS => The solution is', results[0].solution);
+});
 
 module.exports = connection;
