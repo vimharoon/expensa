@@ -17,6 +17,8 @@ const registerUser = (req, res) => {
         } else if (response.status === 4092) {
           return res.boom.conflict(response.message);
         }
+        mailService.welcomeMail(response.data.email, response.data.username, response.data.token);
+        delete response.data;
         res.status(201).send(response);
       }, values);
     } else {
@@ -30,7 +32,7 @@ const authenticateUser = (req, res) => {
   Joi.validate(req.body, inputValidation.authenticateUserSchema, (err, values) => {
     if (err === null) {
       authModel.authenticate(response => {
-        if (!response.error) {
+        if (!response.error && response.user.is_verified) {
           delete response.error;
           const payload = { user: response.user, message: response.message };
           const token = jwt.sign(payload, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), { expiresIn: '2 days', algorithm: 'RS256' }); // expires in 24 hours
@@ -40,7 +42,7 @@ const authenticateUser = (req, res) => {
         } else {
           res.boom.unauthorized(response.message);
         }
-      }, req.body);
+      }, values);
     } else {
       res.boom.conflict(err);
     }
@@ -49,17 +51,28 @@ const authenticateUser = (req, res) => {
 
 // confirm account token
 const confirmAccount = (req, res) => {
-  res.status(201).send({
-    message: 'confirm account token',
-    data: req.body
+  Joi.validate(req.body, inputValidation.tokenSchema, (err, values) => {
+    if (err === null) {
+      authModel.verifyToken(response => {
+        res.status(201).send(response);
+      }, values);
+    } else {
+      res.boom.conflict(err);
+    }
   });
 };
 
 // resend confirm token
 const resendConfirmToken = (req, res) => {
-  res.status(201).send({
-    message: 'resend confirm token',
-    data: req.body
+  Joi.validate(req.body, inputValidation.forgotPasswordSchema, (err, values) => {
+    if (err === null) {
+      res.status(201).send({
+        message: 'resend confirm token',
+        data: req.body
+      });
+    } else {
+      res.boom.conflict(err);
+    }
   });
 };
 
@@ -69,11 +82,13 @@ const forgotPassword = (req, res) => {
     if (err === null) {
       authModel.forgotPassword(response => {
         if (!response.error) {
+          mailService.resetPassword(response.data.email, response.data.username, response.data.token);
+          delete response.data;
           res.status(201).send(response);
         } else {
           res.boom.conflict(response.message);
         }
-      }, req.body);
+      }, values);
     } else {
       res.boom.conflict(err);
     }

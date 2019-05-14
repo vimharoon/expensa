@@ -20,4 +20,7 @@ router.post('/resend-confirmation-token', authController.resendConfirmToken);
 // forgot password
 router.post('/forgot-password', authController.forgotPassword);
 
+// reset password
+// router.post('/reset-password', authController.resetPassword);
+
 module.exports = router;

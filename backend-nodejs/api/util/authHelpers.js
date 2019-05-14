@@ -1,8 +1,9 @@
 'use strict';
 const crypto = require('crypto');
+const mysql = require('./../util/mysql');
 
 // Helper method for validating user's password
-const comparePassword = (mysql, email, clbk) => {
+const comparePassword = (email, clbk) => {
   const q = `SELECT * FROM users WHERE email = ${mysql.escape(email)}`;
   mysql.query(q, (error, results, fields) => {
     if (error) throw error;
@@ -22,7 +23,7 @@ const comparePassword = (mysql, email, clbk) => {
 };
 
 // helper methode to check if user email exist in db
-const checkMail = (clbk, email, username, mysql) => {
+const checkMail = (clbk, email, username) => {
   const q = `SELECT * FROM
             (   SELECT
                       COUNT(email) AS email
@@ -45,6 +46,20 @@ const checkMail = (clbk, email, username, mysql) => {
   });
 };
 
+const getUserInfo = (clbk, email) => {
+  const q = `SELECT
+                username, email
+            FROM
+                users
+            WHERE
+                email = ${mysql.escape(email)}`;
+
+  mysql.query(q, (error, results, fields) => {
+    if (error) throw error;
+    clbk(results);
+  });
+};
+
 // helper methode to create a rendom token
 const generateTokenSecret = () => {
   return crypto.randomBytes(20).toString('hex');
@@ -54,4 +69,5 @@ module.exports = {
   generateTokenSecret,
   comparePassword,
   checkMail,
+  getUserInfo,
 };
