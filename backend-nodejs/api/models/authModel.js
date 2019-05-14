@@ -126,6 +126,7 @@ const forgotPassword = (clbk, data) => {
   }, data.email);
 };
 
+// add condition for password reset
 const verifyToken = (clbk, data) => {
   const todayDate = moment().format('YYYY-MM-DD HH:mm:ss');
   let q;
