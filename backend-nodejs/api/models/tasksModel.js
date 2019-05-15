@@ -19,10 +19,11 @@ const getTasks = (clbk, id) => {
 // create new task
 const createTask = (clbk, data) => {
   const q = `INSERT INTO
-                tasks (task_name, fk_user_id)
+                tasks (task_name, task_date, fk_user_id)
             VALUES
                 (
                 ${mysql.escape(data.taskName)},
+                ${mysql.escape(data.taskDate)},
                 ${mysql.escape(data.user_id)}
                 )`;
 
@@ -34,7 +35,7 @@ const createTask = (clbk, data) => {
 };
 
 // update a task
-const updateTask = (clbk, data, id) => {
+const updateTask = (clbk, data) => {
   const q = `UPDATE
                 tasks
             SET
@@ -42,7 +43,7 @@ const updateTask = (clbk, data, id) => {
                 task_date = ${mysql.escape(data.taskDate)},
                 task_done = ${mysql.escape(data.taskDone)}
             WHERE
-                task_id = ${mysql.escape(id)}`;
+                task_id = ${mysql.escape(data.user_id)}`;
 
   mysql.query(q, (error, results, fields) => {
     if (error) throw error;

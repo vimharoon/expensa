@@ -50,7 +50,7 @@ const authenticateUser = (req, res) => {
 };
 
 // confirm account token
-const confirmAccount = (req, res) => {
+const confirmUserToken = (req, res) => {
   Joi.validate(req.body, inputValidation.tokenSchema, (err, values) => {
     if (err === null) {
       authModel.verifyToken(response => {
@@ -98,7 +98,7 @@ const forgotPassword = (req, res) => {
 module.exports = {
   registerUser,
   authenticateUser,
-  confirmAccount,
+  confirmUserToken,
   resendConfirmToken,
   forgotPassword,
 };

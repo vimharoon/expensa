@@ -25,14 +25,15 @@ const getTransactions = (clbk, id) => {
 // create new transaction
 const createTransaction = (clbk, data) => {
   const q = `INSERT INTO
-                transactions (transaction_type, transaction_amount, transaction_description, fk_user_id, fk_transaction_category_id)
+                transactions (transaction_type, transaction_date, transaction_amount, transaction_description, fk_user_id, fk_transaction_category_id)
             VALUES
                 (
                 ${mysql.escape(data.transactionType)},
+                ${mysql.escape(data.transactionDate)},
                 ${mysql.escape(data.transactionAmount)},
                 ${mysql.escape(data.transactionDescription)},
-                ${mysql.escape(data.fk_user_id)},
-                ${mysql.escape(data.fk_transaction_category_id)}
+                ${mysql.escape(data.user_id)},
+                ${mysql.escape(data.transaction_category_id)}
                 )`;
 
   mysql.query(q, (error, results, fields) => {
@@ -43,7 +44,7 @@ const createTransaction = (clbk, data) => {
 };
 
 // update a transaction
-const updateTransaction = (clbk, data, id) => {
+const updateTransaction = (clbk, data) => {
   const q = `UPDATE
                 transactions
             SET
@@ -51,9 +52,9 @@ const updateTransaction = (clbk, data, id) => {
                 transaction_date = ${mysql.escape(data.transactionDate)},
                 transaction_amount = ${mysql.escape(data.transactionAmount)},
                 transaction_description = ${mysql.escape(data.transactionDescription)},
-                fk_transaction_category_id = ${mysql.escape(data.fk_transaction_category_id)}
+                fk_transaction_category_id = ${mysql.escape(data.transaction_category_id)}
             WHERE
-                transaction_id = ${mysql.escape(id)}`;
+                transaction_id = ${mysql.escape(data.user_id)}`;
 
   mysql.query(q, (error, results, fields) => {
     if (error) throw error;

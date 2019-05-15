@@ -1,9 +1,10 @@
 'use strict';
+const Joi = require('@hapi/joi');
 const transactionsModel = require('./../models/transactionsModel');
+const inputValidation = require('./../middlewares/input-validation');
 
 // get all transactions
 const getTransactions = (req, res) => {
-  console.log(req.userData);
   transactionsModel.getTransactions(response => {
     res.status(200).send(response);
   }, req.userData.user.user_id);
@@ -11,23 +12,41 @@ const getTransactions = (req, res) => {
 
 // create new transaction
 const createTransaction = (req, res) => {
-  transactionsModel.createTransaction(response => {
-    res.status(201).send(response);
-  }, req.body);
+  Joi.validate(req.body, inputValidation.transactionsSchema, (err, values) => {
+    if (err === null) {
+      transactionsModel.createTransaction(response => {
+        res.status(201).send(response);
+      }, values);
+    } else {
+      res.boom.conflict(err);
+    }
+  });
 };
 
 // update a transaction
 const updateTransaction = (req, res) => {
-  transactionsModel.updateTransaction(response => {
-    res.status(201).send(response);
-  }, req.body, req.params.id);
+  Joi.validate(req.body, inputValidation.transactionsSchema, (err, values) => {
+    if (err === null) {
+      transactionsModel.updateTransaction(response => {
+        res.status(201).send(response);
+      }, values);
+    } else {
+      res.boom.conflict(err);
+    }
+  });
 };
 
 // remove a transaction
 const removeTransaction = (req, res) => {
-  transactionsModel.removeTransaction(response => {
-    res.status(201).send(response);
-  }, req.params.id);
+  Joi.validate(req.params, inputValidation.idValidationSchema, (err, values) => {
+    if (err === null) {
+      transactionsModel.removeTransaction(response => {
+        res.status(201).send(response);
+      }, values.id);
+    } else {
+      res.boom.conflict(err);
+    }
+  });
 };
 
 module.exports = {

@@ -12,7 +12,7 @@ router.post('/register', authController.registerUser);
 router.post('/authenticate', authController.authenticateUser);
 
 // new account email confirmation
-router.post('/confirm-account', authController.confirmAccount);
+router.post('/confirm-account', authController.confirmUserToken);
 
 // resend confirmation token
 router.post('/resend-confirmation-token', authController.resendConfirmToken);
@@ -21,6 +21,6 @@ router.post('/resend-confirmation-token', authController.resendConfirmToken);
 router.post('/forgot-password', authController.forgotPassword);
 
 // reset password
-// router.post('/reset-password', authController.resetPassword);
+router.post('/reset-password', authController.confirmUserToken);
 
 module.exports = router;
