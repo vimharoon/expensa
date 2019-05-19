@@ -35,10 +35,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
 .la.la-dashboard,
 .la.la-credit-card,

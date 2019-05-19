@@ -15,20 +15,12 @@
           <i class="la la-search"></i>
         </a>
       </li>
-      <li :class="'nav-item dropdown ' + showMsgClass">
-        <a
-          class="nav-link dropdown-toggle navbar-icon notifications"
-          data-toggle="dropdown"
-          @click="toggleMsgClass"
-        >
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle navbar-icon notifications" data-toggle="dropdown">
           <i class="la la-bell position-relative"></i>
           <span class="notify-signal bg-primary"></span>
         </a>
-        <div
-          v-click-outside="closeDropdown"
-          :class="'dropdown-menu dropdown-menu-right pt-0 ' + showMsgClass"
-          style="min-width: 350px"
-        >
+        <div class="dropdown-menu dropdown-menu-right pt-0" style="min-width: 350px">
           <div class="py-4 px-3 text-center text-white mb-3" style="background-color: #2c2f48;">
             <h5 class="m-0">7 New Notifications</h5>
           </div>
@@ -96,11 +88,10 @@
         </div>
       </li>
       <li class="nav-divider"></li>
-      <li :class="'nav-item dropdown ' + showProfilClass">
+      <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle no-arrow d-inline-flex align-items-center profile"
           data-toggle="dropdown"
-          @click="toggleShowClass"
         >
           <span class="d-none d-sm-inline-block mr-2">John Due</span>
           <span class="position-relative d-inline-block">
@@ -108,10 +99,7 @@
             <span class="badge-point badge-success avatar-badge"></span>
           </span>
         </a>
-        <div
-          :class="'dropdown-menu dropdown-menu-right pt-0 pb-4 ' + showProfilClass"
-          style="min-width: 280px;"
-        >
+        <div class="dropdown-menu dropdown-menu-right pt-0 pb-4" style="min-width: 280px;">
           <div
             class="p-4 mb-4 media align-items-center text-white"
             style="background-color: #2c2f48;"
@@ -146,40 +134,7 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      showProfilClass: "",
-      showMsgClass: ""
-    };
-  },
-  methods: {
-    toggleShowClass() {
-      return (this.showProfilClass = this.showProfilClass ? "" : "show");
-    },
-    toggleMsgClass() {
-      return (this.showMsgClass = this.showMsgClass ? "" : "show");
-    },
-    closeDropdown(event) {
-      // console.log(event);
-    }
-  },
-  directives: {
-    clickOutside: {
-      bind(el, binding, vnode) {
-        el.clickOutsideEvent = function(event) {
-          if (!(el === event.target || el.contains(event.target))) {
-            vnode.context[binding.expression](event);
-          }
-        };
-        document.body.addEventListener("click", el.clickOutsideEvent);
-      },
-      unbind(el) {
-        document.body.removeEventListener("click", el.clickOutsideEvent);
-      }
-    }
-  }
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
