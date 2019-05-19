@@ -22,7 +22,9 @@ app.use(helmet());
 app.use(boom());
 
 // use morgan to show the logs in console
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // use body parser middlewares to parse request
 app.use(bodyParser.json());
