@@ -1,29 +1,34 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div class="page-wrapper">
+    <div class="content-wrapper">
+      <Sidebar></Sidebar>
+      <!-- CONTENT -->
+      <div class="content-area">
+        <Navbar></Navbar>
+        <router-view/>
+        <!-- FOOTER -->
+        <footer class="page-footer flexbox">
+          <div class="text-muted">
+            2019 ©
+            <strong>Expensa</strong>. All rights reserved
+          </div>
+        </footer>
+      </div>
     </div>
-    <router-view/>
+    <Searchform></Searchform>
+    <div class="sidenav-backdrop backdrop"></div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script>
+import Navbar from "@/components/navbar/Navbar";
+import Sidebar from "@/components/navbar/Sidebar";
+import Searchform from "@/components/dashboard/Searchform";
+export default {
+  components: {
+    Navbar,
+    Sidebar,
+    Searchform
   }
-}
-</style>
+};
+</script>
