@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const boom = require('express-boom');
 const cors = require('cors');
-const morgan = require('morgan');
+if (process.env.NODE_ENV === 'development') {
+  const morgan = require('morgan');
+}
 // this will disable etag header for all requests
 app.disable('etag').disable('x-powered-by');
 // enable .env files
