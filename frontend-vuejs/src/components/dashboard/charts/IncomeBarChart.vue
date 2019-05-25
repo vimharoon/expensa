@@ -19,11 +19,11 @@ export default {
     return {
       barSeries: [
         {
-          name: "Net Profit",
+          name: "Dépenses",
           data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
         },
         {
-          name: "Revenue",
+          name: "Revenus",
           data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
         }
       ],
@@ -62,15 +62,10 @@ export default {
             "Oct"
           ]
         },
-        yaxis: {
-          title: {
-            text: "$ (thousands)"
-          }
-        },
         tooltip: {
           y: {
             formatter: function(val) {
-              return "$ " + val + " thousands";
+              return "€ " + val + " euros";
             }
           }
         }

@@ -46,7 +46,7 @@
                       </a>
                     </div>
                   </li>
-                  <li class="list-group-item" style="background-color: #e9ecef;">
+                  <li class="list-group-item">
                     <div>
                       <label class="checkbox checkbox-danger checkbox-circle">
                         <input type="checkbox" checked>
@@ -169,6 +169,10 @@
   padding-right: 0;
   padding-left: 0;
   padding: 0.8rem 1.5rem;
+  &:hover {
+    background-color: #dee2e6;
+    box-shadow: 0px 4px 50px 6px rgba(0, 0, 0, 0.08);
+  }
   .task-actions {
     display: none;
     position: absolute;

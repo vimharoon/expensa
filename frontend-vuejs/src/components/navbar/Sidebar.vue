@@ -14,19 +14,19 @@
         <span>DASHBOARDS</span>
       </li>
       <li>
-        <router-link to="/">
+        <router-link to="/dashboard">
           <i class="sidebar-item-icon la la-dashboard"></i>
           <span class="nav-label">Dashboard</span>
         </router-link>
       </li>
       <li>
-        <router-link to="/transactions">
+        <router-link to="/dashboard/transactions">
           <i class="sidebar-item-icon la la-credit-card"></i>
           <span class="nav-label">Transactions</span>
         </router-link>
       </li>
       <li>
-        <router-link to="/tasks">
+        <router-link to="/dashboard/tasks">
           <i class="sidebar-item-icon la la-list-alt"></i>
           <span class="nav-label">Tâches</span>
         </router-link>

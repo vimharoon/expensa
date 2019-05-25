@@ -38,7 +38,7 @@ import { EventBus } from "./../../eventBus";
 export default {
   methods: {
     sendEmail() {
-      EventBus.$emit("switch-active-comp", "Login");
+      this.$router.push("authentication");
     }
   }
 };

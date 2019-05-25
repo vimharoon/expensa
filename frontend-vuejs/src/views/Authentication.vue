@@ -6,12 +6,10 @@
 import { EventBus } from "./../eventBus";
 import Login from "@/components/authentication/Login";
 import Signup from "@/components/authentication/Signup";
-import Forgotpassword from "@/components/authentication/Forgotpassword";
 export default {
   components: {
     Login,
-    Signup,
-    Forgotpassword
+    Signup
   },
   created() {
     EventBus.$on("switch-active-comp", compName => {
@@ -22,11 +20,6 @@ export default {
     return {
       activeComponent: "Login"
     };
-  },
-  methods: {
-    setActiveComponent() {
-      // this.activeComponent =
-    }
   }
 };
 </script>

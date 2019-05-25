@@ -3,7 +3,7 @@
     <button
       id="datepicker-button-trigger"
       class="btn btn-primary px-4"
-    >{{ formatDates(dateOne, dateTwo) || 'Select dates' }}</button>
+    >{{ formatDates(dateOne, dateTwo) || 'sélectionner les dates' }}</button>
 
     <AirbnbStyleDatepicker
       :trigger-element-id="'datepicker-button-trigger'"
@@ -20,10 +20,11 @@
 
 <script>
 import format from "date-fns/format";
+import frLocal from "date-fns/locale/fr";
 export default {
   data() {
     return {
-      dateFormat: "D MMM",
+      dateFormat: "D MMM YYYY", //"D MMM",
       dateOne: "",
       dateTwo: ""
     };
@@ -32,10 +33,11 @@ export default {
     formatDates(dateOne, dateTwo) {
       let formattedDates = "";
       if (dateOne) {
-        formattedDates = format(dateOne, this.dateFormat);
+        formattedDates = format(dateOne, this.dateFormat, { locale: frLocal });
       }
       if (dateTwo) {
-        formattedDates += " - " + format(dateTwo, this.dateFormat);
+        formattedDates +=
+          " - " + format(dateTwo, this.dateFormat, { locale: frLocal });
       }
       return formattedDates;
     }

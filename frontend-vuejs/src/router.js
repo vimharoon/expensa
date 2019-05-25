@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/dashboard',
       name: 'dashboard',
       component: Dashboard
     },
@@ -24,17 +24,22 @@ export default new Router({
       component: () => import('./views/Authentication.vue')
     },
     {
-      path: '/profile',
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('./views/ForgotPassword.vue')
+    },
+    {
+      path: '/dashboard/profile',
       name: 'profile',
       component: () => import('./views/Profile.vue')
     },
     {
-      path: '/tasks',
+      path: '/dashboard/tasks',
       name: 'tasks',
       component: () => import('./views/Tasks.vue')
     },
     {
-      path: '/transactions',
+      path: '/dashboard/transactions',
       name: 'transactions',
       component: () => import('./views/Transactions.vue')
     }

@@ -25,7 +25,7 @@
                 <input type="checkbox" checked>
                 <span class="ml-0"></span>Se souvenir de moi
               </label>
-              <a @click="forgotPasswordComp" class="text-primary mdp">Mot de passe oublié?</a>
+              <router-link to="/forgot-password" class="text-primary mdp">Mot de passe oublié?</router-link>
             </div>
             <button class="btn btn-primary btn-rounded btn-block font-18" type="submit">Connexion</button>
           </form>
@@ -50,9 +50,6 @@ export default {
   methods: {
     switchActiveComponent() {
       EventBus.$emit("switch-active-comp", "Signup");
-    },
-    forgotPasswordComp() {
-      EventBus.$emit("switch-active-comp", "Forgotpassword");
     }
   }
 };

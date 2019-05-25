@@ -19,11 +19,23 @@ export default {
     return {
       series: [
         {
-          name: "Series 1",
+          name: "Solde",
           data: [34, 43, 31, 63, 45, 75, 50, 77]
         }
       ],
       chartOptions: {
+        xaxis: {
+          categories: [
+            "Jan 2019",
+            "Fév 2019",
+            "Mar 2019",
+            "Avr 2019",
+            "Mai 2019",
+            "Jui 2019",
+            "Jui 2019",
+            "Aoû 2019"
+          ]
+        },
         dataLabels: {
           enabled: true,
           offsetY: -3
@@ -46,10 +58,16 @@ export default {
             stops: [0, 50, 100],
             colorStops: []
           }
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return "€ " + val + " euros";
+            }
+          }
         }
       }
     };
   }
 };
 </script>
-
