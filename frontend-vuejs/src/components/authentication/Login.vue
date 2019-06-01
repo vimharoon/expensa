@@ -7,23 +7,44 @@
             <h3 class="mb-3 text-primary">Expensa</h3>
             <div class="font-18 text-center">Connectez-vous à votre compte</div>
           </div>
-          <form id="login-form" action="javascript:;">
+          <form id="login-form" @submit.prevent="onLogin">
             <div class="mb-4">
               <div class="md-form mb-0">
-                <input class="md-form-control" type="email" name="email">
+                <input
+                  class="md-form-control"
+                  type="email"
+                  name="email"
+                  v-validate="'required|email'"
+                >
                 <label>Email</label>
+                <span
+                  v-show="errors.has('email')"
+                  class="helper-text"
+                  :data-error="errors.first('email')"
+                ></span>
               </div>
             </div>
             <div class="mb-4">
               <div class="md-form mb-0">
-                <input class="md-form-control" type="password" name="password">
+                <input
+                  class="md-form-control"
+                  type="password"
+                  name="mot de passe"
+                  v-validate="'required|min:6|verify_password'"
+                >
                 <label>Mot de passe</label>
+                <span
+                  v-show="errors.has('mot de passe')"
+                  class="helper-text"
+                  :data-error="errors.first('mot de passe')"
+                ></span>
               </div>
             </div>
             <div class="flexbox mb-5">
-              <label class="ui-switch switch-solid">
+              <label class="ui-switch switch-solid small">
                 <input type="checkbox" checked>
-                <span class="ml-0"></span>Se souvenir de moi
+                <span class="small"></span>
+                Se souvenir de moi
               </label>
               <router-link to="/forgot-password" class="text-primary mdp">Mot de passe oublié?</router-link>
             </div>
@@ -40,6 +61,11 @@
           </div>
         </div>
       </div>
+      <router-link class="btn btn-link home-link" to="index.html">
+        <span class="btn-icon">
+          <i class="la la-long-arrow-left font-20"></i>Retour à l'Accueil
+        </span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -50,6 +76,14 @@ export default {
   methods: {
     switchActiveComponent() {
       EventBus.$emit("switch-active-comp", "Signup");
+    },
+    onLogin() {
+      this.$awn.success("Your yes custom message", {
+        icons: { success: "check" }
+      });
+      this.$awn.warning("Your no custom message", {
+        icons: { warning: "exclamation" }
+      });
     }
   }
 };
@@ -72,6 +106,11 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .home-link {
+    position: absolute;
+    left: 5px;
+    top: 10px;
   }
 }
 </style>

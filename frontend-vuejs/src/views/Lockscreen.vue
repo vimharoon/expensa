@@ -39,6 +39,11 @@
           </div>
         </div>
       </div>
+      <router-link class="btn btn-link home-link" to="/">
+        <span class="btn-icon">
+          <i class="la la-long-arrow-left font-20"></i>Retour à l'Accueil
+        </span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -75,6 +80,11 @@ export default {};
       transform: translateY(-50%);
       z-index: 2;
     }
+  }
+  .home-link {
+    position: absolute;
+    left: 5px;
+    top: 10px;
   }
 }
 </style>

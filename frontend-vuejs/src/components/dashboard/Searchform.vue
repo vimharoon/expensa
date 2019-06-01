@@ -19,4 +19,3 @@
 <script>
 export default {};
 </script>
-

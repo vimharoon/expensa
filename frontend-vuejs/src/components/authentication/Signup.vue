@@ -7,35 +7,77 @@
             <h3 class="mb-3 text-primary">Expensa</h3>
             <div class="font-18 text-center">Créer un compte</div>
           </div>
-          <form id="register-form" action="javascript:;">
+          <form id="register-form" @submit.prevent="onRegisterNewUser">
             <div class="mb-4">
               <div class="md-form mb-0">
-                <input class="md-form-control" type="text" name="username">
-                <label>Username</label>
+                <input
+                  class="md-form-control"
+                  type="text"
+                  name="nom d'utilisateur"
+                  v-validate="'required|min:3|max:20|alpha_num'"
+                >
+                <label>Nom d'utilisateur</label>
+                <span
+                  v-show="errors.has('nom d\'utilisateur')"
+                  class="helper-text"
+                  :data-error="errors.first('nom d\'utilisateur')"
+                ></span>
               </div>
             </div>
             <div class="mb-4">
               <div class="md-form mb-0">
-                <input class="md-form-control" type="email" name="email">
+                <input
+                  class="md-form-control"
+                  type="email"
+                  name="email"
+                  v-validate="'required|email'"
+                >
                 <label>Email</label>
+                <span
+                  v-show="errors.has('email')"
+                  class="helper-text"
+                  :data-error="errors.first('email')"
+                ></span>
               </div>
             </div>
             <div class="mb-4">
               <div class="md-form mb-0">
-                <input class="md-form-control" id="password" type="password" name="password">
-                <label>Password</label>
+                <input
+                  class="md-form-control"
+                  type="password"
+                  name="mot de passe"
+                  v-validate="'required|min:6|verify_password'"
+                  ref="mot de passe"
+                >
+                <label>Mot de passe</label>
+                <span
+                  v-show="errors.has('mot de passe')"
+                  class="helper-text"
+                  :data-error="errors.first('mot de passe')"
+                ></span>
               </div>
             </div>
             <div class="mb-5">
               <div class="md-form mb-0">
-                <input class="md-form-control" type="password" name="password_confirmation">
-                <label>Confirm Password</label>
+                <input
+                  class="md-form-control"
+                  type="password"
+                  name="confirmer mot de passe"
+                  v-validate="'required|confirmed:mot de passe'"
+                  data-vv-as="confirmer mot de passe"
+                >
+                <label>Confirmer mot de passe</label>
+                <span
+                  v-show="errors.has('confirmer mot de passe')"
+                  class="helper-text"
+                  :data-error="errors.first('confirmer mot de passe')"
+                ></span>
               </div>
             </div>
             <div class="flexbox mb-5">
               <label class="checkbox checkbox-primary mt-2">
                 <input type="checkbox" checked>
-                <span>I accept the terms</span>
+                <span class="small">J'accepte les conditions d'utilisation</span>
               </label>
               <button
                 class="btn btn-primary btn-rounded font-16"
@@ -52,6 +94,11 @@
           </div>
         </div>
       </div>
+      <router-link class="btn btn-link home-link" to="index.html">
+        <span class="btn-icon">
+          <i class="la la-long-arrow-left font-20"></i>Retour à l'Accueil
+        </span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -62,6 +109,9 @@ export default {
   methods: {
     switchActiveComponent() {
       EventBus.$emit("switch-active-comp", "Login");
+    },
+    onRegisterNewUser() {
+      console.log("register new user");
     }
   }
 };
@@ -81,6 +131,11 @@ export default {
       flex-basis: 400px;
       box-shadow: 0 5px 20px #d6dee4;
     }
+  }
+  .home-link {
+    position: absolute;
+    left: 5px;
+    top: 10px;
   }
 }
 </style>

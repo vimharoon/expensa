@@ -1,6 +1,7 @@
 <template>
   <div class="page-wrapper">
-    <div class="content-wrapper">
+    <router-view name="auth"/>
+    <div v-if="isLoggedIn" class="content-wrapper">
       <Sidebar></Sidebar>
       <!-- CONTENT -->
       <div class="content-area">
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Navbar from "@/components/navbar/Navbar";
 import Sidebar from "@/components/navbar/Sidebar";
 import Searchform from "@/components/dashboard/Searchform";
@@ -29,6 +31,29 @@ export default {
     Navbar,
     Sidebar,
     Searchform
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters["auth/isLoggedIn"];
+    }
+  },
+  created() {
+    axios.interceptors.response.use(undefined, function(err) {
+      return new Promise(function(resolve, reject) {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          // if you ever get an unauthorized, logout the user
+          this.$store.dispatch("auth/logout");
+        }
+        throw err;
+      });
+    });
   }
 };
 </script>
+
+<style lang="scss">
+body {
+  background-color: #f2f3fa;
+}
+</style>
+

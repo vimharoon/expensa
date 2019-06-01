@@ -115,7 +115,7 @@
               <div class="font-13">Administrator</div>
             </div>
           </div>
-          <router-link to="/dashboard/profile" class="dropdown-item d-flex align-items-center">
+          <router-link to="/profile" class="dropdown-item d-flex align-items-center">
             <i class="la la-user mr-3 font-18 text-muted"></i>Profil
           </router-link>
 
