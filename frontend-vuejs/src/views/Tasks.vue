@@ -13,7 +13,7 @@
               <div class="d-flex justify-content-between mb-4">
                 <div>
                   <h5 class="box-title mb-2">Les tâches</h5>
-                  <div class="text-muted font-13">Total 34 tâches</div>
+                  <div class="text-muted font-13">Total {{ alltasksList.length }} tâches</div>
                 </div>
                 <button
                   class="btn btn-floating btn-sm btn-danger"
@@ -26,125 +26,21 @@
               </div>
               <div class="card-fullwidth-block">
                 <ul class="list-group list-group-flush tasks-list">
-                  <li class="list-group-item">
+                  <li class="list-group-item" v-for="task in alltasksList" :key="task.task_id">
                     <div>
                       <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox">
+                        <input type="checkbox" v-if="task.task_done ? 'checked' : ''">
                         <span>
-                          <span class="h6">Send message to John</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="task-info mt-2 font-13">
-                      <i class="la la-clock-o mr-2"></i>24 Dec 2018
-                    </div>
-                    <div class="task-actions">
-                      <a class="text-muted" href="#">
-                        <i class="la la-pencil"></i>
-                      </a>
-                      <a class="text-danger" href="#">
-                        <i class="la la-close ml-2"></i>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div>
-                      <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox" checked>
-                        <span>
-                          <span class="h6">Create Perfect Admin Template</span>
+                          <span class="h6">{{ task.task_name }}</span>
                         </span>
                       </label>
                     </div>
                     <div class="task-info">
-                      <div class="text-muted font-13">Lorem ipsum dolor sit amet.</div>
+                      <div class="text-muted font-13">{{ task.task_description }}</div>
                       <div class="font-13 mt-2">
-                        <i class="la la-clock-o mr-2"></i>24 Dec 2018
+                        <i class="la la-clock-o mr-2"></i>
+                        {{ task.task_date }}
                       </div>
-                    </div>
-                    <div class="task-actions">
-                      <a class="text-muted" href="#">
-                        <i class="la la-pencil"></i>
-                      </a>
-                      <a class="text-danger" href="#">
-                        <i class="la la-close ml-2"></i>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div>
-                      <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox">
-                        <span>
-                          <span class="h6">Send Financial Reports, Lorem ipsum</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="task-info mt-2 font-13">
-                      <i class="la la-clock-o mr-2"></i>24 Dec 2018
-                    </div>
-                    <div class="task-actions">
-                      <a class="text-muted" href="#">
-                        <i class="la la-pencil"></i>
-                      </a>
-                      <a class="text-danger" href="#">
-                        <i class="la la-close ml-2"></i>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div>
-                      <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox" checked>
-                        <span>
-                          <span class="h6">Send photos to Ann, Lorem ipsum</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="task-info mt-2 font-13">
-                      <i class="la la-clock-o mr-2"></i>24 Dec 2018
-                    </div>
-                    <div class="task-actions">
-                      <a class="text-muted" href="#">
-                        <i class="la la-pencil"></i>
-                      </a>
-                      <a class="text-danger" href="#">
-                        <i class="la la-close ml-2"></i>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div>
-                      <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox" checked>
-                        <span>
-                          <span class="h6">Lorem ipsum dolor sit amet</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="task-info mt-2 font-13">
-                      <i class="la la-clock-o mr-2"></i>24 Dec 2018
-                    </div>
-                    <div class="task-actions">
-                      <a class="text-muted" href="#">
-                        <i class="la la-pencil"></i>
-                      </a>
-                      <a class="text-danger" href="#">
-                        <i class="la la-close ml-2"></i>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div>
-                      <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox">
-                        <span>
-                          <span class="h6">Lorem ipsum dolor sit amet</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div class="task-info mt-2 font-13">
-                      <i class="la la-clock-o mr-2"></i>24 Dec 2018
                     </div>
                     <div class="task-actions">
                       <a class="text-muted" href="#">
@@ -172,13 +68,12 @@ export default {
   components: {
     NewTaskModal
   },
-  created() {
-    console.log(this.$store);
+  mounted() {
     this.$store.dispatch("tasks/getAllTasks");
   },
   computed: {
     alltasksList() {
-      return this.$store.state.todos; //.filter(todo => todo.done).length
+      return this.$store.state.tasks.taskList;
     }
   }
 };

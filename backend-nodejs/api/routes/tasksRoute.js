@@ -6,16 +6,19 @@ const router = express.Router();
 const tasksController = require('./../controllers/tasksController');
 const checkAuth = require('./../middlewares/check-auth');
 
-// get transactions
-router.get('/:id', checkAuth, tasksController.getTasks);
+// get tasks
+router.get('/', checkAuth, tasksController.getTasks);
 
-// create new transaction
+// create new task
 router.post('/', checkAuth, tasksController.createTask);
 
-// upate a transaction
+// upate a task
 router.put('/:id', checkAuth, tasksController.updateTask);
 
-// upate a transaction
+// patch a task
+router.put('/:id', checkAuth, tasksController.updateTask);
+
+// delete a task
 router.delete('/:id', checkAuth, tasksController.removeTask);
 
 module.exports = router;

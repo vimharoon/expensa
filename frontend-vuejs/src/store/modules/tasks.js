@@ -14,13 +14,13 @@ const actions = {
   getAllTasks({ commit }) {
     return new Promise((resolve, reject) => {
       axios({
-        url: '/tasks/1',
+        url: '/tasks',
         method: 'GET'
       })
         .then((resp) => {
-          console.log(resp);
-          commit('GET_TASK_LIST', resp.data);
-          resolve(resp.data);
+          const { data } = resp;
+          commit('GET_TASK_LIST', data);
+          resolve(data);
         })
         .catch((err) => {
           reject(err.response);

@@ -5,15 +5,9 @@ const inputValidation = require('./../middlewares/input-validation');
 
 // get all tasks
 const getTasks = (req, res) => {
-  Joi.validate(req.params, inputValidation.idValidationSchema, (err, values) => {
-    if (err === null) {
-      taskModel.getTasks(response => {
-        res.status(200).send(response);
-      }, req.userData.user.user_id);
-    } else {
-      res.boom.conflict(err);
-    }
-  });
+  taskModel.getTasks(response => {
+    res.status(200).send(response);
+  }, req.userData.user.user_id);
 };
 
 // create a new task

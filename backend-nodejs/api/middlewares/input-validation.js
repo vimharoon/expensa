@@ -62,15 +62,14 @@ const transactionsSchema = Joi.object().keys({
  ********************************************/
 const createTasksSchema = Joi.object().keys({
   taskName: Joi.string().alphanum().min(5).max(255).required(),
-  taskDate: Joi.date().timestamp('unix'),
-	user_id: Joi.number().positive().integer().required()
+  taskDescription: Joi.string().alphanum().min(5).max(255)
 });
 
 const updateTasksSchema = Joi.object().keys({
   taskName: Joi.string().alphanum().min(5).max(255).required(),
+  taskDescription: Joi.string().alphanum().min(5).max(255),
   taskDate: Joi.date().timestamp('unix'),
-	taskDone: Joi.number().positive().integer().required(),
-	user_id: Joi.number().positive().integer().required()
+  taskDone: Joi.number().positive().integer()
 });
 
 module.exports = {

@@ -4,7 +4,7 @@ const mysql = require('./../util/mysql');
 // get all tasks per user
 const getTasks = (clbk, id) => {
   const q = `SELECT
-                task_id, task_name, task_done, task_date
+                task_id, task_name, task_description, task_done, task_date
             FROM
                 tasks
             WHERE
@@ -17,14 +17,14 @@ const getTasks = (clbk, id) => {
 };
 
 // create new task
-const createTask = (clbk, data) => {
+const createTask = (clbk, data, id) => {
   const q = `INSERT INTO
-                tasks (task_name, task_date, fk_user_id)
+                tasks (task_name, task_description, fk_user_id)
             VALUES
                 (
                 ${mysql.escape(data.taskName)},
-                ${mysql.escape(data.taskDate)},
-                ${mysql.escape(data.user_id)}
+                ${mysql.escape(data.taskDescription)},
+                ${mysql.escape(id)}
                 )`;
 
   mysql.query(q, (error, results, fields) => {
@@ -35,19 +35,36 @@ const createTask = (clbk, data) => {
 };
 
 // update a task
-const updateTask = (clbk, data) => {
+const updateTask = (clbk, data, id) => {
   const q = `UPDATE
                 tasks
             SET
                 task_name = ${mysql.escape(data.taskName)},
+                task_description = ${mysql.escape(data.taskDescription)},
                 task_date = ${mysql.escape(data.taskDate)},
                 task_done = ${mysql.escape(data.taskDone)}
             WHERE
-                task_id = ${mysql.escape(data.user_id)}`;
+                task_id = ${mysql.escape(id)}`;
 
   mysql.query(q, (error, results, fields) => {
     if (error) throw error;
     results.message = "Tâche mise à jour avec succès";
+    clbk(results);
+  });
+}
+
+// update task status
+const updateTaskStatus = (clbk, data, id) => {
+  const q = `UPDATE
+                tasks
+            SET
+                task_done = ${mysql.escape(data.taskDone)}
+            WHERE
+                task_id = ${mysql.escape(id)}`;
+
+  mysql.query(q, (error, results, fields) => {
+    if (error) throw error;
+    results.message = "Bravo vous avez accompli la tâche";
     clbk(results);
   });
 }
@@ -70,5 +87,6 @@ module.exports = {
   getTasks,
   createTask,
   updateTask,
+  updateTaskStatus,
   removeTask,
 };

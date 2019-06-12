@@ -7,7 +7,7 @@ const transactionsController = require('./../controllers/transactionController')
 const checkAuth = require('./../middlewares/check-auth');
 
 // get transactions
-router.get('/:user_id', checkAuth, transactionsController.getTransactions);
+router.get('/', checkAuth, transactionsController.getTransactions);
 
 // create new transaction
 router.post('/', checkAuth, transactionsController.createTransaction);
