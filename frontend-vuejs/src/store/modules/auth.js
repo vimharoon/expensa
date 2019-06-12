@@ -11,6 +11,9 @@ const mutations = {
     state.token = token;
     state.user = user;
   },
+  REGISTER_SUCCESS(state) {
+    state.status = 'success';
+  },
   LOGOUT(state) {
     state.status = '';
     state.token = '';
@@ -18,15 +21,14 @@ const mutations = {
 };
 
 const actions = {
-  login({ commit }, userAuth) {
+  login({ commit }, authData) {
     return new Promise((resolve, reject) => {
       axios({
         url: '/api/v1/auth/authenticate',
-        data: userAuth,
+        data: authData,
         method: 'POST'
       })
         .then((resp) => {
-          console.log(resp);
           const { token, user } = resp.data;
           localStorage.setItem('user-token', token);
           localStorage.setItem('user-data', JSON.stringify(user));
@@ -36,33 +38,28 @@ const actions = {
         })
         .catch((err) => {
           localStorage.removeItem('user-token');
-          reject(err);
+          reject(err.response);
         });
     });
   },
-  register({ commit }, userAuth) {
+  register({ commit }, userData) {
     return new Promise((resolve, reject) => {
       axios({
         url: '/api/v1/auth/register',
-        data: userAuth,
+        data: userData,
         method: 'POST'
       })
         .then((resp) => {
-          const { token, user } = resp.data;
-          localStorage.setItem('user-token', token);
-          localStorage.setItem('user-data', JSON.stringify(user));
-          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          commit('auth_success', { token, user });
+          commit('REGISTER_SUCCESS');
           resolve(resp);
         })
         .catch((err) => {
-          localStorage.removeItem('user-token');
-          reject(err);
+          reject(err.response);
         });
     });
   },
   logout({ commit }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       commit('LOGOUT');
       localStorage.clear();
       delete axios.defaults.headers.common.Authorization;

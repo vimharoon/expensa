@@ -13,6 +13,7 @@
                 <input
                   class="md-form-control"
                   type="email"
+                  v-model="email"
                   name="email"
                   v-validate="'required|email'"
                 >
@@ -29,6 +30,7 @@
                 <input
                   class="md-form-control"
                   type="password"
+                  v-model="password"
                   name="mot de passe"
                   v-validate="'required|min:6|verify_password'"
                 >
@@ -73,16 +75,43 @@
 <script>
 import { EventBus } from "./../../eventBus";
 export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     switchActiveComponent() {
       EventBus.$emit("switch-active-comp", "Signup");
     },
     onLogin() {
-      this.$awn.success("Your yes custom message", {
-        icons: { success: "check" }
-      });
-      this.$awn.warning("Your no custom message", {
-        icons: { warning: "exclamation" }
+      const userData = {
+        email: this.email,
+        password: this.password
+      };
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$store
+            .dispatch("auth/login", userData)
+            .then(response => {
+              this.$router.push("dashboard");
+              const { message } = response.data;
+              this.$awn.success(message, {
+                icons: { success: "check" }
+              });
+            })
+            .catch(error => {
+              this.$awn.warning(error.data.message, {
+                icons: { warning: "exclamation" }
+              });
+            });
+          return;
+        } else {
+          this.$awn.warning("Veuillez saisir des informations valides", {
+            icons: { warning: "exclamation" }
+          });
+        }
       });
     }
   }

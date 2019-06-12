@@ -93,7 +93,7 @@
           class="nav-link dropdown-toggle no-arrow d-inline-flex align-items-center profile"
           data-toggle="dropdown"
         >
-          <span class="d-none d-sm-inline-block mr-2">John Due</span>
+          <span class="d-none d-sm-inline-block mr-2">{{ this.$store.state.auth.user.username }}</span>
           <span class="position-relative d-inline-block">
             <img class="rounded-circle" src="https://picsum.photos/100/100" alt="image" width="36">
             <span class="badge-point badge-success avatar-badge"></span>
@@ -111,8 +111,10 @@
               width="55"
             >
             <div class="media-body">
-              <h5 class="mb-1">Jonathan Due</h5>
-              <div class="font-13">Administrator</div>
+              <h5 class="mb-1">{{ this.$store.state.auth.user.username }}</h5>
+              <div
+                class="font-13"
+              >{{ this.$store.state.auth.user.is_admin ? 'Administrateur' : 'Utilisateur'}}</div>
             </div>
           </div>
           <router-link to="/profile" class="dropdown-item d-flex align-items-center">
@@ -121,7 +123,7 @@
 
           <div class="dropdown-divider my-3"></div>
           <div class="mx-4">
-            <button class="btn btn-link p-0">
+            <button class="btn btn-link p-0" @click="onLogout">
               <span class="btn-icon">
                 <i class="la la-power-off mr-2 font-18"></i>Déconnexion
               </span>
@@ -134,7 +136,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    onLogout() {
+      this.$store.dispatch("auth/logout").then(response => {
+        this.$router.push("authentication");
+        this.$awn.success("Vous êtes maintenant déconnecté", {
+          icons: { success: "check" }
+        });
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

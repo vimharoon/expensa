@@ -13,6 +13,7 @@
                 <input
                   class="md-form-control"
                   type="text"
+                  v-model="username"
                   name="nom d'utilisateur"
                   v-validate="'required|min:3|max:20|alpha_num'"
                 >
@@ -29,6 +30,7 @@
                 <input
                   class="md-form-control"
                   type="email"
+                  v-model="email"
                   name="email"
                   v-validate="'required|email'"
                 >
@@ -45,6 +47,7 @@
                 <input
                   class="md-form-control"
                   type="password"
+                  v-model="password"
                   name="mot de passe"
                   v-validate="'required|min:6|verify_password'"
                   ref="mot de passe"
@@ -106,12 +109,45 @@
 <script>
 import { EventBus } from "./../../eventBus";
 export default {
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     switchActiveComponent() {
       EventBus.$emit("switch-active-comp", "Login");
     },
     onRegisterNewUser() {
-      console.log("register new user");
+      const userData = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      };
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$store
+            .dispatch("auth/register", userData)
+            .then(response => {
+              this.$router.push("lockscreen");
+              this.$awn.success(response.data.message, {
+                icons: { success: "check" }
+              });
+            })
+            .catch(error => {
+              this.$awn.warning(error.data.message, {
+                icons: { alert: "exclamation" }
+              });
+            });
+          return;
+        } else {
+          this.$awn.warning("Veuillez saisir des informations valides", {
+            icons: { warning: "exclamation" }
+          });
+        }
+      });
     }
   }
 };

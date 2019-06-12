@@ -171,7 +171,6 @@
   padding: 0.8rem 1.5rem;
   &:hover {
     background-color: #dee2e6;
-    box-shadow: 0px 4px 50px 6px rgba(0, 0, 0, 0.08);
   }
   .task-actions {
     display: none;
