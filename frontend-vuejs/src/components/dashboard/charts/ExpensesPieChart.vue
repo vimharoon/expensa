@@ -25,7 +25,13 @@ export default {
     return {
       pieSeries: [44, 55, 13, 43, 22],
       pieOptions: {
-        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+        labels: [
+          "Nourriture - 6,000 €",
+          "Loyer - 4,866 €",
+          "Divertissement - 4,160 €",
+          "Crédit - 4,844€",
+          "Transports - 2,480 €"
+        ],
         responsive: [
           {
             breakpoint: 480,

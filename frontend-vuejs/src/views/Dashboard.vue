@@ -4,37 +4,37 @@
       <div class="page-breadcrumb">
         <h1 class="page-title">L'état de votre portefeuille</h1>
       </div>
-      <Datepicker></Datepicker>
+      <date-picker></date-picker>
     </div>
     <div>
       <!-- Information cards -->
-      <Infocards></Infocards>
+      <info-cards></info-cards>
       <!-- Expense category chart -->
-      <ExpensesPieChart></ExpensesPieChart>
+      <expenses-pie-chart></expenses-pie-chart>
       <!-- solde and income/expense -->
       <div class="row">
         <!--  Income/month chart -->
-        <SoldeLineChart></SoldeLineChart>
+        <solde-line-chart></solde-line-chart>
         <!-- Income / expenses chart -->
-        <IncomeBarChart></IncomeBarChart>
+        <income-bar-chart></income-bar-chart>
       </div>
     </div>
     <!-- Recent Transactions -->
-    <RecentTransactions></RecentTransactions>
+    <recent-transactions></recent-transactions>
   </div>
 </template>
 
 <script>
-import Infocards from "@/components/dashboard/Infocards";
-import Datepicker from "@/components/dashboard/Datepicker";
+import InfoCards from "@/components/dashboard/InfoCards";
+import DatePicker from "@/components/dashboard/DatePicker";
 import RecentTransactions from "@/components/dashboard/RecentTransactions";
 import IncomeBarChart from "@/components/dashboard/charts/IncomeBarChart";
 import SoldeLineChart from "@/components/dashboard/charts/SoldeLineChart";
 import ExpensesPieChart from "@/components/dashboard/charts/ExpensesPieChart";
 export default {
   components: {
-    Infocards,
-    Datepicker,
+    InfoCards,
+    DatePicker,
     RecentTransactions,
     IncomeBarChart,
     SoldeLineChart,

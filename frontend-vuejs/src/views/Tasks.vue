@@ -12,12 +12,13 @@
             <div class="card-body">
               <div class="d-flex justify-content-between mb-4">
                 <div>
-                  <h5 class="box-title mb-2">Tasks list</h5>
-                  <div class="text-muted font-13">Total 34 tasks</div>
+                  <h5 class="box-title mb-2">Les tâches</h5>
+                  <div class="text-muted font-13">Total 34 tâches</div>
                 </div>
                 <button
                   class="btn btn-floating btn-sm btn-danger"
-                  data-toggle="tooltip"
+                  data-toggle="modal"
+                  data-target="#tasksModalCenter"
                   title="Add New Task"
                 >
                   <i class="la la-plus"></i>
@@ -161,8 +162,28 @@
         </div>
       </div>
     </div>
+    <new-task-modal></new-task-modal>
   </div>
 </template>
+
+<script>
+import NewTaskModal from "@/components/tasks/NewTaskModal";
+export default {
+  components: {
+    NewTaskModal
+  },
+  created() {
+    console.log(this.$store);
+    this.$store.dispatch("tasks/getAllTasks");
+  },
+  computed: {
+    alltasksList() {
+      return this.$store.state.todos; //.filter(todo => todo.done).length
+    }
+  }
+};
+</script>
+
 
 <style lang="scss" scoped>
 .tasks-list > li {

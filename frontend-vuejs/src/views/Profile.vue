@@ -225,6 +225,20 @@
             </div>
           </div>
         </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="media-body">
+                <div class="d-flex justify-content-between">
+                  <strong class="text-danger mt-2">Supprimer votre compte</strong>
+                  <div class="text-muted font-13 ml-3" style="min-width: 80px;">
+                    <button class="btn btn-danger btn-rounded" type="button">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

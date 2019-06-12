@@ -12,7 +12,12 @@
             <input type="text" class="form-control" placeholder="Rechercher">
           </div>
           <div class="col-sm-2 col-md-6">
-            <button class="btn btn-danger btn-floating float-right" type="button">
+            <button
+              class="btn btn-danger btn-floating float-right"
+              type="button"
+              data-toggle="modal"
+              data-target="#transactionModalCenter"
+            >
               <i class="la la-plus"></i>
             </button>
           </div>
@@ -81,18 +86,8 @@
             <div class="col-sm-12 col-md-7">
               <nav>
                 <ul class="pagination justify-content-end">
-                  <!-- disabled -->
                   <li class="page-item" @click="prevPage">
                     <a class="page-link previous">Previous</a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link">2</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link">3</a>
                   </li>
                   <li class="page-item" @click="nextPage">
                     <a class="page-link next">Next</a>
@@ -104,12 +99,17 @@
         </div>
       </div>
     </div>
+    <new-transaction-modal></new-transaction-modal>
   </div>
 </template>
 
 <script>
+import NewTransactionModal from "@/components/transactions/NewTransactionModal";
 import TestData from "@/testData.js";
 export default {
+  components: {
+    NewTransactionModal
+  },
   data() {
     // const sortOrders = {};
     // this.columns.forEach(key => {

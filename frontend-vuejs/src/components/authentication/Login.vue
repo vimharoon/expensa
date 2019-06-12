@@ -95,7 +95,7 @@ export default {
           this.$store
             .dispatch("auth/login", userData)
             .then(response => {
-              this.$router.push("dashboard");
+              this.$router.push("/");
               const { message } = response.data;
               this.$awn.success(message, {
                 icons: { success: "check" }

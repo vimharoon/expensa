@@ -2,10 +2,10 @@
   <div class="page-wrapper">
     <router-view name="auth"/>
     <div v-if="isLoggedIn" class="content-wrapper">
-      <Sidebar></Sidebar>
+      <side-bar></side-bar>
       <!-- CONTENT -->
       <div class="content-area">
-        <Navbar></Navbar>
+        <nav-bar></nav-bar>
         <router-view/>
         <!-- FOOTER -->
         <footer class="page-footer flexbox">
@@ -16,21 +16,21 @@
         </footer>
       </div>
     </div>
-    <Searchform></Searchform>
+    <search-form></search-form>
     <div class="sidenav-backdrop backdrop"></div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Navbar from "@/components/navbar/Navbar";
-import Sidebar from "@/components/navbar/Sidebar";
-import Searchform from "@/components/dashboard/Searchform";
+import NavBar from "@/components/navbar/NavBar";
+import SideBar from "@/components/navbar/SideBar";
+import SearchForm from "@/components/dashboard/SearchForm";
 export default {
   components: {
-    Navbar,
-    Sidebar,
-    Searchform
+    NavBar,
+    SideBar,
+    SearchForm
   },
   computed: {
     isLoggedIn() {

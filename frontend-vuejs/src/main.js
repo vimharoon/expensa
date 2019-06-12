@@ -13,8 +13,7 @@ import 'vue-awesome-notifications/dist/styles/style.css';
 import 'vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css';
 
 Vue.config.productionTip = false;
-
-axios.defaults.baseURL = 'https://api.haroonmohammad.com';
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 Vue.prototype.$http = axios;
 const token = localStorage.getItem('user-token');
 if (token) {

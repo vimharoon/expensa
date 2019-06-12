@@ -4,8 +4,8 @@
       <div class="card card-fullheight">
         <div class="card-body">
           <div class="d-flex justify-content-between mb-4">
-            <h5 class="box-title mb-0">Recent Transactions</h5>
-            <a class="text-muted" href="#">View All</a>
+            <h5 class="box-title mb-0">Transactions récentes</h5>
+            <router-link class="text-muted" to="/transactions">Voir tout</router-link>
           </div>
           <table class="table table-borderless cols-align-middle">
             <tbody>

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const state = {
   token: localStorage.getItem('user-token') || '',
-  user: '' || JSON.parse(localStorage.getItem('user-data'))
+  user: [] || JSON.parse(localStorage.getItem('user-data'))
 };
 
 const mutations = {
@@ -24,7 +24,7 @@ const actions = {
   login({ commit }, authData) {
     return new Promise((resolve, reject) => {
       axios({
-        url: '/api/v1/auth/authenticate',
+        url: '/auth/authenticate',
         data: authData,
         method: 'POST'
       })
@@ -45,7 +45,7 @@ const actions = {
   register({ commit }, userData) {
     return new Promise((resolve, reject) => {
       axios({
-        url: '/api/v1/auth/register',
+        url: '/auth/register',
         data: userData,
         method: 'POST'
       })
