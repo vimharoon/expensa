@@ -1,11 +1,16 @@
 'use strict'
 const Joi = require('@hapi/joi')
+const moment = require('moment')
 const taskModel = require('./../models/tasksModel')
 const inputValidation = require('./../middlewares/input-validation')
+moment.locale('fr')
 
 // get all tasks
 const getTasks = (req, res) => {
   taskModel.getTasks(response => {
+    response.map(el => {
+      el.task_date = moment(el.task_date).fromNow()
+    })
     res.status(200).send(response)
   }, req.userData.user.user_id)
 }
