@@ -118,7 +118,7 @@ const tasksSchema = Joi.object().keys({
     .max(255),
 })
 
-const updateTaskStatusSchema = Joi.object.keys({
+const updateTaskStatusSchema = Joi.object().keys({
   taskDone: Joi.boolean().required(),
 })
 

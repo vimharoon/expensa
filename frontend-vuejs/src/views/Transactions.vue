@@ -100,16 +100,16 @@
         </div>
       </div>
     </div>
-    <new-transaction-modal></new-transaction-modal>
+    <transaction-modal></transaction-modal>
   </div>
 </template>
 
 <script>
-import NewTransactionModal from "@/components/transactions/NewTransactionModal";
+import TransactionModal from "@/components/transactions/TransactionModal";
 import TestData from "@/testData.js";
 export default {
   components: {
-    NewTransactionModal
+    TransactionModal
   },
   data() {
     // const sortOrders = {};

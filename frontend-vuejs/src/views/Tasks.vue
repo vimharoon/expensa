@@ -62,15 +62,15 @@
         </div>
       </div>
     </div>
-    <new-task-modal></new-task-modal>
+    <task-modal></task-modal>
   </div>
 </template>
 
 <script>
-import NewTaskModal from "@/components/tasks/NewTaskModal";
+import TaskModal from "@/components/tasks/TaskModal";
 export default {
   components: {
-    NewTaskModal
+    TaskModal
   },
   methods: {
     onChangeTaskStatus(task) {
