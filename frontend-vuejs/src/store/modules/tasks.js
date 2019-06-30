@@ -43,9 +43,9 @@ const actions = {
       console.log(error.response);
     }
   },
-  async updateTask({ commit }, task) {
+  async updateTask({ commit }, task, taskId) {
     try {
-      const response = await axios({ url: `/tasks/${task.task_id}`, data: task, method: 'PUT' });
+      const response = await axios({ url: `/tasks/${taskId}`, data: task, method: 'PUT' });
       const { data } = response;
       await commit('EDIT_TASK');
       return data;
@@ -55,7 +55,11 @@ const actions = {
   },
   async updateTaskStatus({ commit }, task) {
     try {
-      const response = await axios({ url: `/tasks/${task.task_id}`, data: task, method: 'PATCH' });
+      const response = await axios({
+        url: `/tasks/${task.task_id}`,
+        data: { taskDone: task.done },
+        method: 'PATCH'
+      });
       const { data } = response;
       await commit('CHANGE_TASK_STATUS');
       return data;

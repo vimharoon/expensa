@@ -36,9 +36,13 @@ const createTask = (req, res) => {
 const updateTask = (req, res) => {
   Joi.validate(req.body, inputValidation.tasksSchema, (err, values) => {
     if (err === null) {
-      taskModel.updateTask(response => {
-        res.status(201).send(response)
-      }, values)
+      taskModel.updateTask(
+        response => {
+          res.status(201).send(response)
+        },
+        values,
+        req.params.id
+      )
     } else {
       res.boom.conflict(err)
     }
@@ -52,9 +56,13 @@ const updateTaskStatus = (req, res) => {
     inputValidation.updateTaskStatusSchema,
     (err, values) => {
       if (err === null) {
-        taskModel.updateTaskStatus(response => {
-          res.status(201).send(response)
-        }, values)
+        taskModel.updateTaskStatus(
+          response => {
+            res.status(201).send(response)
+          },
+          values,
+          req.params.id
+        )
       } else {
         res.boom.conflict(err)
       }

@@ -11,7 +11,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="tasksModalCenter">{{ taskTitle }}</h5>
+            <h5 class="modal-title" id="tasksModalCenter">{{ taskModalTitle }}</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -22,20 +22,41 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div class="md-form">
-                    <input class="md-form-control" type="text" />
+                    <input
+                      class="md-form-control"
+                      v-model="taskName"
+                      type="text"
+                      name="titre"
+                      v-validate="'required|min:5|max:255'"
+                    />
                     <label>Titre</label>
+                    <span
+                      v-show="errors.has('titre')"
+                      class="helper-text"
+                      :data-error="errors.first('titre')"
+                    ></span>
                   </div>
                 </div>
               </div>
               <div class="md-form">
-                <textarea class="md-form-control"></textarea>
+                <textarea
+                  class="md-form-control"
+                  name="description"
+                  v-validate="'required|min:5|max:255'"
+                  v-model="taskDescription"
+                ></textarea>
                 <label>Description</label>
+                <span
+                  v-show="errors.has('description')"
+                  class="helper-text"
+                  :data-error="errors.first('description')"
+                ></span>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button class="btn btn-light" type="button" data-dismiss="modal">Annuler</button>
-            <button class="btn btn-primary" type="button">Sauvegarder</button>
+            <button class="btn btn-primary" @click="onSaveTask" type="button">Sauvegarder</button>
           </div>
         </div>
       </div>
@@ -44,11 +65,73 @@
 </template>
 
 <script>
+import { EventBus } from "@/eventBus";
+
 export default {
   props: {
-    taskTitle: {
+    taskModalTitle: {
       type: String,
       required: true
+    }
+  },
+  data() {
+    return {
+      taskId: "",
+      taskName: "",
+      taskDescription: "",
+      createTask: false
+    };
+  },
+  mounted() {
+    EventBus.$on("create-task", create => {
+      this.taskName = "";
+      this.taskDescription = "";
+      this.createTask = create;
+    });
+    EventBus.$on("edit-task", task => {
+      this.createTask = false;
+      this.taskId = task.task_id;
+      this.taskName = task.task_name;
+      this.taskDescription = task.task_description;
+    });
+  },
+  methods: {
+    onSaveTask() {
+      const taskData = {
+        taskName: this.taskName,
+        taskDescription: this.taskDescription
+      };
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          if (this.createTask) {
+            this._createTask(taskData);
+          } else {
+            this._editTask(taskData);
+          }
+        } else {
+          this.$awn.warning("Veuillez saisir des informations valides", {
+            icons: { warning: "exclamation" }
+          });
+        }
+      });
+    },
+    _createTask(taskData) {
+      this.$store.dispatch("tasks/createNewTask", taskData).then(response => {
+        this.$store.dispatch("tasks/getAllTasks");
+        this.$awn.success(response.message, {
+          icons: { success: "check" }
+        });
+      });
+    },
+    _editTask(taskData) {
+      this.$store
+        .dispatch("tasks/updateTask", taskData, this.taskId)
+        .then(response => {
+          this.$store.dispatch("tasks/getAllTasks");
+          this.$awn.success(response.message, {
+            icons: { success: "check" }
+          });
+        });
     }
   }
 };

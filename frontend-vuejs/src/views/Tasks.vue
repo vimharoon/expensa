@@ -20,6 +20,7 @@
                   data-toggle="modal"
                   data-target="#tasksModalCenter"
                   title="Add New Task"
+                  @click="createNewTask"
                 >
                   <i class="la la-plus"></i>
                 </button>
@@ -47,7 +48,12 @@
                       </div>
                     </div>
                     <div class="task-actions">
-                      <a class="text-muted" @click="onEditTask(task)">
+                      <a
+                        class="text-muted"
+                        data-toggle="modal"
+                        data-target="#tasksModalCenter"
+                        @click="onEditTask(task)"
+                      >
                         <i class="la la-pencil"></i>
                       </a>
                       <a class="text-danger" @click="onDeleteTask(task)">
@@ -62,19 +68,34 @@
         </div>
       </div>
     </div>
-    <task-modal></task-modal>
+    <task-modal :taskModalTitle="taskModalTile"></task-modal>
   </div>
 </template>
 
 <script>
 import TaskModal from "@/components/tasks/TaskModal";
+import { EventBus } from "@/eventBus";
+
 export default {
   components: {
     TaskModal
   },
+  data() {
+    return {
+      taskModalTile: ""
+    };
+  },
   methods: {
+    createNewTask() {
+      this.taskModalTile = "Ajouter une tâche";
+      EventBus.$emit("create-task", true);
+    },
     onChangeTaskStatus(task) {
-      console.log(task);
+      this.$store.dispatch("tasks/updateTaskStatus", task).then(response => {
+        this.$awn.success(response.message, {
+          icons: { success: "check" }
+        });
+      });
     },
     onDeleteTask(task) {
       this.$store.dispatch("tasks/deleteTask", task.task_id).then(response => {
@@ -84,7 +105,8 @@ export default {
       });
     },
     onEditTask(task) {
-      console.log(task);
+      this.taskModalTile = "Modifier une tâche";
+      EventBus.$emit("edit-task", task);
     }
   },
   mounted() {
