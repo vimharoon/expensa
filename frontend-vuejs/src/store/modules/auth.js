@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const state = {
   token: localStorage.getItem('user-token') || '',
-  user: [] || JSON.parse(localStorage.getItem('user-data'))
+  user: JSON.parse(localStorage.getItem('user-data')) || {}
 };
 
 const mutations = {

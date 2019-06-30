@@ -34,6 +34,7 @@ const createTask = (req, res) => {
 
 // update a task
 const updateTask = (req, res) => {
+  console.log(req.body)
   Joi.validate(req.body, inputValidation.tasksSchema, (err, values) => {
     if (err === null) {
       taskModel.updateTask(

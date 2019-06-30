@@ -1,4 +1,5 @@
 'use strict'
+const moment = require('moment')
 const mysql = require('./../util/mysql')
 
 // get all tasks per user
@@ -18,12 +19,15 @@ const getTasks = (clbk, id) => {
 
 // create new task
 const createTask = (clbk, data, id) => {
+  const todayDate = moment().format('YYYY-MM-DD HH:mm:ss')
+  console.log(todayDate)
   const q = `INSERT INTO
-                tasks (task_name, task_description, fk_user_id)
+                tasks (task_name, task_description, task_date, fk_user_id)
             VALUES
                 (
                 ${mysql.escape(data.taskName)},
                 ${mysql.escape(data.taskDescription)},
+                ${mysql.escape(todayDate)},
                 ${mysql.escape(id)}
                 )`
 
@@ -62,7 +66,7 @@ const updateTaskStatus = (clbk, data, id) => {
 
   mysql.query(q, (error, results, fields) => {
     if (error) throw error
-    results.message = 'Bravo vous avez accompli la tâche'
+    results.message = 'Le statut à bien été modifié'
     clbk(results)
   })
 }

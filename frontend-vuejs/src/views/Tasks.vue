@@ -13,7 +13,10 @@
               <div class="d-flex justify-content-between mb-4">
                 <div>
                   <h5 class="box-title mb-2">Les tâches</h5>
-                  <div class="text-muted font-13">Total {{ alltasksList.length }} tâches</div>
+                  <div class="text-muted font-13">
+                    Total
+                    <strong>{{ alltasksList.length }}</strong> tâches
+                  </div>
                 </div>
                 <button
                   class="btn btn-floating btn-sm btn-danger"
@@ -32,7 +35,7 @@
                       <label class="checkbox checkbox-danger checkbox-circle">
                         <input
                           type="checkbox"
-                          v-model="task.done"
+                          v-model="task.task_done"
                           @change="onChangeTaskStatus(task)"
                         />
                         <span>
@@ -92,6 +95,7 @@ export default {
     },
     onChangeTaskStatus(task) {
       this.$store.dispatch("tasks/updateTaskStatus", task).then(response => {
+        this.$store.dispatch("tasks/getAllTasks");
         this.$awn.success(response.message, {
           icons: { success: "check" }
         });
@@ -99,6 +103,7 @@ export default {
     },
     onDeleteTask(task) {
       this.$store.dispatch("tasks/deleteTask", task.task_id).then(response => {
+        this.$store.dispatch("tasks/getAllTasks");
         this.$awn.success(response.message, {
           icons: { success: "check" }
         });

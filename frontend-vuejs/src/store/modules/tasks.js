@@ -30,7 +30,7 @@ const actions = {
       const { data } = response;
       await commit('GET_TASK_LIST', data);
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   },
   async createNewTask({ commit }, newTask) {
@@ -40,31 +40,35 @@ const actions = {
       await commit('ADD_TASK');
       return data;
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   },
-  async updateTask({ commit }, task, taskId) {
+  async updateTask({ commit }, task) {
     try {
-      const response = await axios({ url: `/tasks/${taskId}`, data: task, method: 'PUT' });
+      const response = await axios({
+        url: `/tasks/${task.id}`,
+        data: task.taskData,
+        method: 'PUT'
+      });
       const { data } = response;
       await commit('EDIT_TASK');
       return data;
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   },
   async updateTaskStatus({ commit }, task) {
     try {
       const response = await axios({
         url: `/tasks/${task.task_id}`,
-        data: { taskDone: task.done },
+        data: { taskDone: task.task_done },
         method: 'PATCH'
       });
       const { data } = response;
       await commit('CHANGE_TASK_STATUS');
       return data;
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   },
   async deleteTask({ commit }, taskId) {
@@ -74,7 +78,7 @@ const actions = {
       await commit('REMOVE_TASK');
       return data;
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   }
 };

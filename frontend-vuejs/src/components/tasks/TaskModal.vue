@@ -89,10 +89,10 @@ export default {
       this.createTask = create;
     });
     EventBus.$on("edit-task", task => {
-      this.createTask = false;
       this.taskId = task.task_id;
       this.taskName = task.task_name;
       this.taskDescription = task.task_description;
+      this.createTask = false;
     });
   },
   methods: {
@@ -118,20 +118,24 @@ export default {
     _createTask(taskData) {
       this.$store.dispatch("tasks/createNewTask", taskData).then(response => {
         this.$store.dispatch("tasks/getAllTasks");
+        $("#tasksModalCenter").modal("hide");
         this.$awn.success(response.message, {
           icons: { success: "check" }
         });
       });
     },
     _editTask(taskData) {
-      this.$store
-        .dispatch("tasks/updateTask", taskData, this.taskId)
-        .then(response => {
-          this.$store.dispatch("tasks/getAllTasks");
-          this.$awn.success(response.message, {
-            icons: { success: "check" }
-          });
+      const editTaskData = {
+        taskData: taskData,
+        id: this.taskId
+      };
+      this.$store.dispatch("tasks/updateTask", editTaskData).then(response => {
+        this.$store.dispatch("tasks/getAllTasks");
+        $("#tasksModalCenter").modal("hide");
+        this.$awn.success(response.message, {
+          icons: { success: "check" }
         });
+      });
     }
   }
 };
