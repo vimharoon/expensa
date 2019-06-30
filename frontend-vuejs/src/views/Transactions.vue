@@ -9,7 +9,7 @@
       <div class="card mt-4">
         <div class="card-cup bg-primary text-white justify-content-between">
           <div class="col-sm-10 col-md-6">
-            <input type="text" class="form-control" placeholder="Rechercher" />
+            <input type="text" class="form-control" v-model="searchInput" placeholder="Rechercher" />
           </div>
           <div class="col-sm-2 col-md-6">
             <button
@@ -29,37 +29,26 @@
                 <table class="table table-bordered w-100" id="dt-base">
                   <thead class="thead-light">
                     <tr>
-                      <th @click="sort('category')" class="sortable">
+                      <th class="sortable">
                         Catégorie
-                        <span
-                          class="arrow"
-                          :class="currentSortDir === 'asc' ? 'desc' : 'asc'"
-                        ></span>
+                        <span class="arrow"></span>
                       </th>
-                      <th @click="sort('date')" class="sortable">
+                      <th class="sortable">
                         Date
-                        <span class="arrow" :class="currentSortDir === 'asc' ? 'desc' : 'asc'"></span>
+                        <span class="arrow"></span>
                       </th>
-                      <th @click="sort('paymentmode')" class="sortable">
+                      <th class="sortable">
                         Mode de paiement
-                        <span
-                          class="arrow"
-                          :class="currentSortDir === 'asc' ? 'desc' : 'asc'"
-                        ></span>
+                        <span class="arrow"></span>
                       </th>
-                      <th @click="sort('description')" class="sortable">
+                      <th class="sortable">
                         Description
-                        <span
-                          class="arrow"
-                          :class="currentSortDir === 'asc' ? 'desc' : 'asc'"
-                        ></span>
+                        <span class="arrow"></span>
                       </th>
-                      <th @click="sort('amount')" class="sortable">
+                      <th class="sortable">
                         Montant
-                        <span
-                          class="arrow"
-                          :class="currentSortDir === 'asc' ? 'desc' : 'asc'"
-                        ></span>
+                        <!-- :class="currentSortDir === 'asc' ? 'desc' : 'asc'" -->
+                        <span class="arrow"></span>
                       </th>
                     </tr>
                   </thead>
@@ -79,19 +68,19 @@
           <!-- table footer -->
           <div class="row">
             <div class="col-sm-12 col-md-5">
-              <!-- sortedTransactions.length -->
-              <div
-                role="status"
-              >1 à 10 sur 20 transactions | debug: sort={{ currentSort }}, dir={{ currentSortDir }}, page={{ currentPage }}</div>
+              <div role="status">
+                Vous avez
+                <strong>{{ sortedTransactions.length }}</strong> transactions
+              </div>
             </div>
             <div class="col-sm-12 col-md-7">
               <nav>
                 <ul class="pagination justify-content-end">
                   <li class="page-item" @click="prevPage">
-                    <a class="page-link previous">Previous</a>
+                    <a class="page-link previous">Précédent</a>
                   </li>
                   <li class="page-item" @click="nextPage">
-                    <a class="page-link next">Next</a>
+                    <a class="page-link next">Suivant</a>
                   </li>
                 </ul>
               </nav>
@@ -112,31 +101,18 @@ export default {
     TransactionModal
   },
   data() {
-    // const sortOrders = {};
-    // this.columns.forEach(key => {
-    //   sortOrders[key] = 1;
-    // });
     return {
-      // sortKey: "",
-      // sortOrders: sortOrders,
-      currentSort: "date",
-      currentSortDir: "asc",
-      pageSize: 10,
-      currentPage: 1
+      searchInput: "",
+      currentPage: 1,
+      rowsPerPage: 10
     };
   },
   methods: {
-    sort(sName) {
-      if (sName === this.currentSort) {
-        this.currentSortDir = this.currentSortDir === "asc" ? "desc" : "asc";
-      }
-      this.currentSort = sName;
-    },
-    nextPage: function() {
-      if (this.currentPage * this.pageSize < this.transactions.length)
+    nextPage() {
+      if (this.currentPage * this.rowsPerPage < this.sortedTransactions.length)
         this.currentPage++;
     },
-    prevPage: function() {
+    prevPage() {
       if (this.currentPage > 1) this.currentPage--;
     }
   },
@@ -145,12 +121,20 @@ export default {
   },
   computed: {
     sortedTransactions() {
-      return this.$store.getters["transactions/getAllTransactionsFiltred"](
-        this.currentSortDir,
-        this.currentSort,
-        this.currentPage,
-        this.pageSize
+      return this.$store.getters["transactions/getAllTransactions"].filter(
+        transaction => {
+          return transaction.transaction_category_name
+            .toLowerCase()
+            .match(this.searchInput.toLowerCase());
+        }
       );
+      // .filter(
+      //   (row, index) => {
+      //     let start = (this.currentPage - 1) * this.rowsPerPage;
+      //     let end = this.currentPage * this.rowsPerPage;
+      //     if (index >= start && index < end) return true;
+      //   }
+      // );
     }
   }
 };
