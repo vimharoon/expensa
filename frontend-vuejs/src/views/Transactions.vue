@@ -9,7 +9,7 @@
       <div class="card mt-4">
         <div class="card-cup bg-primary text-white justify-content-between">
           <div class="col-sm-10 col-md-6">
-            <input type="text" class="form-control" placeholder="Rechercher">
+            <input type="text" class="form-control" placeholder="Rechercher" />
           </div>
           <div class="col-sm-2 col-md-6">
             <button
@@ -64,12 +64,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="trans in sortedTransactions" :key="trans.id">
-                      <td>{{ trans.category }}</td>
-                      <td>{{ trans.date }}</td>
-                      <td>{{ trans.paymentmode }}</td>
-                      <td>{{ trans.description }}</td>
-                      <td>{{ trans.amount }}</td>
+                    <tr v-for="trans in sortedTransactions" :key="trans.transaction_id">
+                      <td>{{ trans.transaction_category_name }}</td>
+                      <td>{{ trans.transaction_date }}</td>
+                      <td>{{ trans.transaction_type }}</td>
+                      <td>{{ trans.transaction_description }}</td>
+                      <td>{{ trans.transaction_amount }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -79,9 +79,10 @@
           <!-- table footer -->
           <div class="row">
             <div class="col-sm-12 col-md-5">
+              <!-- sortedTransactions.length -->
               <div
                 role="status"
-              >1 à 10 sur {{ transactions.length }} transactions | debug: sort={{ currentSort }}, dir={{ currentSortDir }}, page={{ currentPage }}</div>
+              >1 à 10 sur 20 transactions | debug: sort={{ currentSort }}, dir={{ currentSortDir }}, page={{ currentPage }}</div>
             </div>
             <div class="col-sm-12 col-md-7">
               <nav>
@@ -118,7 +119,6 @@ export default {
     return {
       // sortKey: "",
       // sortOrders: sortOrders,
-      transactions: TestData,
       currentSort: "date",
       currentSortDir: "asc",
       pageSize: 10,
@@ -140,21 +140,17 @@ export default {
       if (this.currentPage > 1) this.currentPage--;
     }
   },
+  mounted() {
+    this.$store.dispatch("transactions/getAllTransactions");
+  },
   computed: {
     sortedTransactions() {
-      return this.transactions
-        .sort((a, b) => {
-          let modifier = 1;
-          if (this.currentSortDir === "desc") modifier = -1;
-          if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-          if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-          return 0;
-        })
-        .filter((row, index) => {
-          const start = (this.currentPage - 1) * this.pageSize;
-          const end = this.currentPage * this.pageSize;
-          if (index >= start && index < end) return true;
-        });
+      return this.$store.getters["transactions/getAllTransactionsFiltred"](
+        this.currentSortDir,
+        this.currentSort,
+        this.currentPage,
+        this.pageSize
+      );
     }
   }
 };

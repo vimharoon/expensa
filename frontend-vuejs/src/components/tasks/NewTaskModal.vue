@@ -22,14 +22,14 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div class="md-form">
-                    <input class="md-form-control" type="text">
+                    <input class="md-form-control" type="text" />
                     <label>Titre</label>
                   </div>
                 </div>
               </div>
               <div class="md-form">
                 <textarea class="md-form-control"></textarea>
-                <label>description</label>
+                <label>Description</label>
               </div>
             </form>
           </div>
@@ -69,7 +69,7 @@
                 data-content="Popover body content is set in this attribute."
               >button</a> triggers a popover on click.
             </p>
-            <hr>
+            <hr />
             <h5>Tooltips in a modal</h5>
             <p>
               <a href="#" data-toggle="tooltip" title="Tooltip">This link</a> and

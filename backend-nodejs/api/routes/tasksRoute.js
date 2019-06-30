@@ -16,7 +16,7 @@ router.post('/', checkAuth, tasksController.createTask);
 router.put('/:id', checkAuth, tasksController.updateTask);
 
 // patch a task
-router.put('/:id', checkAuth, tasksController.updateTask);
+router.patch('/:id', checkAuth, tasksController.updateTaskStatus);
 
 // delete a task
 router.delete('/:id', checkAuth, tasksController.removeTask);

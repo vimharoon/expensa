@@ -1,6 +1,6 @@
 'use strict';
 const Joi = require('@hapi/joi');
-const usersModel = require('./../models/userModel');
+const usersModel = require('./../models/usersModel');
 const inputValidation = require('./../middlewares/input-validation');
 
 // get all users
@@ -79,19 +79,15 @@ const updateUserPassword = (req, res) => {
 
 // remove user permanently
 const removeUser = (req, res) => {
-  if (req.userData.user.is_admin) {
-    Joi.validate(req.params, inputValidation.idValidationSchema, (err, values) => {
-      if (err === null) {
-        usersModel.removeUser(response => {
-          res.status(201).send(response);
-        }, values.id);
-      } else {
-        res.boom.conflict(err);
-      }
-    });
-  } else {
-    res.boom.forbidden('vous n\'avez pas les autorisations nécessaires');
-  }
+  Joi.validate(req.params, inputValidation.idValidationSchema, (err, values) => {
+    if (err === null) {
+      usersModel.removeUser(response => {
+        res.status(201).send(response);
+      }, values.id);
+    } else {
+      res.boom.conflict(err);
+    }
+  });
 };
 
 module.exports = {

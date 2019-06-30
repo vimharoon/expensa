@@ -29,7 +29,11 @@
                   <li class="list-group-item" v-for="task in alltasksList" :key="task.task_id">
                     <div>
                       <label class="checkbox checkbox-danger checkbox-circle">
-                        <input type="checkbox" v-if="task.task_done ? 'checked' : ''">
+                        <input
+                          type="checkbox"
+                          v-model="task.done"
+                          @change="onChangeTaskStatus(task)"
+                        />
                         <span>
                           <span class="h6">{{ task.task_name }}</span>
                         </span>
@@ -43,10 +47,10 @@
                       </div>
                     </div>
                     <div class="task-actions">
-                      <a class="text-muted" href="#">
+                      <a class="text-muted" @click="onEditTask(task)">
                         <i class="la la-pencil"></i>
                       </a>
-                      <a class="text-danger" href="#">
+                      <a class="text-danger" @click="onDeleteTask(task)">
                         <i class="la la-close ml-2"></i>
                       </a>
                     </div>
@@ -67,6 +71,21 @@ import NewTaskModal from "@/components/tasks/NewTaskModal";
 export default {
   components: {
     NewTaskModal
+  },
+  methods: {
+    onChangeTaskStatus(task) {
+      console.log(task);
+    },
+    onDeleteTask(task) {
+      this.$store.dispatch("tasks/deleteTask", task.task_id).then(response => {
+        this.$awn.success(response.message, {
+          icons: { success: "check" }
+        });
+      });
+    },
+    onEditTask(task) {
+      console.log(task);
+    }
   },
   mounted() {
     this.$store.dispatch("tasks/getAllTasks");
@@ -91,6 +110,7 @@ export default {
   .task-actions {
     display: none;
     position: absolute;
+    cursor: pointer;
     right: 20px;
     top: 50%;
     margin-top: -15px;

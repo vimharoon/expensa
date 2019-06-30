@@ -16,5 +16,5 @@ export default new Vuex.Store({
     tasks,
     transactions
   },
-  strict: debug
+  strict: false
 });
