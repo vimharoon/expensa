@@ -17,6 +17,7 @@
               type="button"
               data-toggle="modal"
               data-target="#transactionModalCenter"
+              @click="onCreateNewTransaction"
             >
               <i class="la la-plus"></i>
             </button>
@@ -50,15 +51,37 @@
                         <!-- :class="currentSortDir === 'asc' ? 'desc' : 'asc'" -->
                         <span class="arrow"></span>
                       </th>
+                      <th class="sortable">
+                        Actions
+                        <span class="arrow"></span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="trans in sortedTransactions" :key="trans.transaction_id">
-                      <td>{{ trans.transaction_category_name }}</td>
+                      <td>
+                        <i class="icofont-food-basket icofont-2x"></i>
+                        {{ trans.transaction_category_name }}
+                      </td>
                       <td>{{ trans.transaction_date }}</td>
                       <td>{{ trans.transaction_type }}</td>
                       <td>{{ trans.transaction_description }}</td>
-                      <td>{{ trans.transaction_amount }}</td>
+                      <td>{{ trans.transaction_amount }} €</td>
+                      <td>
+                        <div class="d-flex justify-content-around task-actions">
+                          <a
+                            class="text-muted"
+                            data-toggle="modal"
+                            data-target="#transactionModalCenter"
+                            @click="onEditTransaction(trans)"
+                          >
+                            <i class="la la-pencil"></i>
+                          </a>
+                          <a class="text-danger" @click="onDeleteTransaction(trans)">
+                            <i class="la la-close ml-2"></i>
+                          </a>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -89,13 +112,14 @@
         </div>
       </div>
     </div>
-    <transaction-modal></transaction-modal>
+    <transaction-modal :transactionModalTitle="transactionModalTitle"></transaction-modal>
   </div>
 </template>
 
 <script>
 import TransactionModal from "@/components/transactions/TransactionModal";
-import TestData from "@/testData.js";
+import { EventBus } from "@/eventBus";
+
 export default {
   components: {
     TransactionModal
@@ -104,10 +128,29 @@ export default {
     return {
       searchInput: "",
       currentPage: 1,
-      rowsPerPage: 10
+      rowsPerPage: 10,
+      transactionModalTitle: ""
     };
   },
   methods: {
+    onCreateNewTransaction() {
+      this.transactionModalTitle = "Ajouter une transaction";
+      EventBus.$emit("create-transaction", true);
+    },
+    onEditTransaction(transaction) {
+      this.transactionModalTitle = "Modifier une transaction";
+      EventBus.$emit("edit-transaction", transaction);
+    },
+    onDeleteTransaction(transaction) {
+      this.$store
+        .dispatch("transactions/deleteTransactions", transaction.transaction_id)
+        .then(response => {
+          this.$store.dispatch("transactions/getAllTransactions");
+          this.$awn.success(response.message, {
+            icons: { success: "check" }
+          });
+        });
+    },
     nextPage() {
       if (this.currentPage * this.rowsPerPage < this.sortedTransactions.length)
         this.currentPage++;
@@ -144,8 +187,19 @@ export default {
 th.active .arrow {
   opacity: 1;
 }
-.sortable {
+.task-actions .text-muted,
+.task-actions .text-danger {
+  display: none;
   cursor: pointer;
+  .la {
+    font-size: 1.5rem;
+  }
+}
+#dt-base tr:hover .task-actions .text-muted,
+#dt-base tr:hover .task-actions .text-danger {
+  display: block;
+}
+.sortable {
   .arrow {
     display: inline-block;
     vertical-align: middle;

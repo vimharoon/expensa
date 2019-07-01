@@ -11,7 +11,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="transactionModalCenter">Nouvelle Transaction</h5>
+            <h5 class="modal-title" id="transactionModalCenter">{{ transactionModalTitle }}</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -19,13 +19,13 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <div>
+                <div class="d-flex justify-content-around">
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="b" checked>
+                    <input type="radio" name="transactiontype" checked />
                     <span>Dépense</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="b">
+                    <input type="radio" name="transactiontype" />
                     <span>Revenue</span>
                   </label>
                 </div>
@@ -33,24 +33,24 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="date">
+                    <input class="md-form-control" type="date" />
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="time">
+                    <input class="md-form-control" type="time" />
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="text">
+                    <input class="md-form-control" type="text" />
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="number">
+                    <input class="md-form-control" type="number" min="0" />
                   </div>
                 </div>
               </div>
@@ -59,18 +59,18 @@
                 <label>description</label>
               </div>
               <div class="form-group mb-5">
-                <label>Mode de payment</label>
-                <div>
+                <label>Mode de payment :</label>
+                <div class="d-flex justify-content-around">
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="a" checked>
+                    <input type="radio" name="paymentmode" checked />
                     <span>Cash</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="a">
+                    <input type="radio" name="paymentmode" />
                     <span>Carte blue</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="a">
+                    <input type="radio" name="paymentmode" />
                     <span>carte de crédit</span>
                   </label>
                 </div>
@@ -84,48 +84,37 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal fade"
-      id="exampleModalPopovers"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalPopoversLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalPopoversLabel">Modal title</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <h5>Popover in a modal</h5>
-            <p>
-              This
-              <a
-                class="btn btn-secondary"
-                href="#"
-                role="button"
-                data-toggle="popover"
-                title="Popover title"
-                data-content="Popover body content is set in this attribute."
-              >button</a> triggers a popover on click.
-            </p>
-            <hr>
-            <h5>Tooltips in a modal</h5>
-            <p>
-              <a href="#" data-toggle="tooltip" title="Tooltip">This link</a> and
-              <a href="#" data-toggle="tooltip" title="Tooltip">that link</a> have tooltips on hover.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-            <button class="btn btn-primary" type="button">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
+
+<script>
+import { EventBus } from "@/eventBus";
+
+export default {
+  props: {
+    transactionModalTitle: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      taskId: "",
+      taskName: "",
+      taskDescription: "",
+      createTransaction: false
+    };
+  },
+  mounted() {
+    EventBus.$on("create-transaction", create => {
+      this.createTransaction = create;
+    });
+    EventBus.$on("edit-transaction", transaction => {
+      console.log(transaction);
+      this.createTransaction = false;
+    });
+  },
+  methods: {}
+};
+</script>
+
