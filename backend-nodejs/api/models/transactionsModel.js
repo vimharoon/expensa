@@ -6,7 +6,7 @@ const getTransactions = (clbk, id) => {
   const q = `SELECT
                 t.transaction_id, t.transaction_type, t.transaction_date,
                 t.transaction_amount, t.transaction_description, t.transaction_payment_mode,
-                tc.transaction_category_name, tc.transaction_category_icon
+                tc.transaction_category_id, tc.transaction_category_name, tc.transaction_category_icon
             FROM
                 transactions AS t
             LEFT JOIN

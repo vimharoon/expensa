@@ -59,8 +59,8 @@ const actions = {
   async editTransaction({ commit }, transaction) {
     try {
       const response = await axios({
-        url: `/transactions/${transaction.transaction_id}`,
-        data: transaction,
+        url: `/transactions/${transaction.id}`,
+        data: transaction.transactionData,
         method: 'PUT'
       });
       const { data } = response;

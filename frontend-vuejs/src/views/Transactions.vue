@@ -159,13 +159,15 @@ export default {
   },
   computed: {
     sortedTransactions() {
-      return this.$store.getters["transactions/getAllTransactions"].filter(
-        (transaction, index) => {
+      return this.$store.getters["transactions/getAllTransactions"]
+        .filter((transaction, index) => {
           return transaction.transaction_category_name
             .toLowerCase()
             .match(this.searchInput.toLowerCase());
-        }
-      );
+        })
+        .sort(
+          (a, b) => new Date(b.transaction_date) - new Date(a.transaction_date)
+        );
     }
   }
 };
