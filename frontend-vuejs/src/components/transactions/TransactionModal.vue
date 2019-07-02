@@ -95,7 +95,7 @@
                   </label>
                   <label class="radio radio-inline radio-primary">
                     <input type="radio" value="transfer" name="paymentmode" v-model="paymentmode" />
-                    <span>virement</span>
+                    <span>Virement</span>
                   </label>
                 </div>
               </div>
@@ -162,6 +162,15 @@ export default {
         transaction_category_id: this.transactioncategory
       };
       console.log(transactionData);
+      this.$store
+        .dispatch("transactions/createNewTransaction", transactionData)
+        .then(response => {
+          console.log(response);
+          this.$store.dispatch("transactions/getAllTransactions");
+          this.$awn.success(response.message, {
+            icons: { success: "check" }
+          });
+        });
     },
     onBlurHandler() {
       this.transactionamount = this.format(this.transactionamount);

@@ -47,7 +47,7 @@
                         {{ trans.transaction_category_name }}
                       </td>
                       <td>{{ trans.transaction_date | formatDate }}</td>
-                      <td>{{ trans.transaction_type }}</td>
+                      <td>{{ trans.transaction_payment_mode | paymentMode }}</td>
                       <td>{{ trans.transaction_description }}</td>
                       <td>
                         <strong
@@ -146,6 +146,15 @@ export default {
     formatDate(value) {
       if (!value) return "";
       return format(value, "DD MMMM YYYY", { locale: frLocal });
+    },
+    paymentMode(value) {
+      if (value === "cash") {
+        return "Espèces";
+      } else if (value === "card") {
+        return "Carte Bancaire";
+      } else if (value === "transfer") {
+        return "Virement";
+      }
     }
   },
   computed: {
