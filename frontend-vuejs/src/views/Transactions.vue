@@ -46,11 +46,13 @@
                         <i :class="trans.transaction_category_icon + ' icofont-2x'"></i>
                         {{ trans.transaction_category_name }}
                       </td>
-                      <td>{{ trans.transaction_date }}</td>
+                      <td>{{ trans.transaction_date | formatDate }}</td>
                       <td>{{ trans.transaction_type }}</td>
                       <td>{{ trans.transaction_description }}</td>
                       <td>
-                        <strong class="text-danger">{{ trans.transaction_amount | toCurrency }}</strong>
+                        <strong
+                          :class="trans.transaction_type === 'expense' ? 'text-danger' : 'text-success'"
+                        >{{ trans.transaction_amount | toCurrency }}</strong>
                       </td>
                       <td>
                         <div class="d-flex justify-content-around task-actions">
@@ -104,6 +106,8 @@
 <script>
 import TransactionModal from "@/components/transactions/TransactionModal";
 import { EventBus } from "@/eventBus";
+import format from "date-fns/format";
+import frLocal from "date-fns/locale/fr";
 
 export default {
   components: {
@@ -137,6 +141,12 @@ export default {
   },
   mounted() {
     this.$store.dispatch("transactions/getAllTransactions");
+  },
+  filters: {
+    formatDate(value) {
+      if (!value) return "";
+      return format(value, "DD MMMM YYYY", { locale: frLocal });
+    }
   },
   computed: {
     sortedTransactions() {

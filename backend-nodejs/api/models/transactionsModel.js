@@ -5,7 +5,7 @@ const mysql = require('./../util/mysql')
 const getTransactions = (clbk, id) => {
   const q = `SELECT
                 t.transaction_id, t.transaction_type, t.transaction_date,
-                t.transaction_amount, t.transaction_description,
+                t.transaction_amount, t.transaction_description, t.transaction_payment_mode,
                 tc.transaction_category_name, tc.transaction_category_icon
             FROM
                 transactions AS t
@@ -25,13 +25,22 @@ const getTransactions = (clbk, id) => {
 // create new transaction
 const createTransaction = (clbk, data, userId) => {
   const q = `INSERT INTO
-                transactions (transaction_type, transaction_date, transaction_amount, transaction_description, fk_user_id, fk_transaction_category_id)
+                transactions (
+                              transaction_type,
+                              transaction_date,
+                              transaction_amount,
+                              transaction_description,
+                              transaction_payment_mode,
+                              fk_user_id,
+                              fk_transaction_category_id
+                              )
             VALUES
                 (
                 ${mysql.escape(data.transactionType)},
                 ${mysql.escape(data.transactionDate)},
                 ${mysql.escape(data.transactionAmount)},
                 ${mysql.escape(data.transactionDescription)},
+                ${mysql.escape(data.transactionPaymentMode)},
                 ${mysql.escape(userId)},
                 ${mysql.escape(data.transaction_category_id)}
                 )`
@@ -51,6 +60,9 @@ const updateTransaction = (clbk, data, id) => {
                 transaction_type = ${mysql.escape(data.transactionType)},
                 transaction_date = ${mysql.escape(data.transactionDate)},
                 transaction_amount = ${mysql.escape(data.transactionAmount)},
+                transaction_payment_mode = ${mysql.escape(
+                  data.transactionPaymentMode
+                )},
                 transaction_description = ${mysql.escape(
                   data.transactionDescription
                 )},

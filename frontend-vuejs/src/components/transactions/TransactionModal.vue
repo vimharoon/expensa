@@ -70,7 +70,6 @@
                     <input
                       class="md-form-control"
                       type="text"
-                      pattern="([0-9])"
                       @blur="onBlurHandler"
                       @focus="onFocusHandler"
                       placeholder="Entrer le montant"
@@ -153,12 +152,12 @@ export default {
   },
   methods: {
     submitTransaction() {
-      console.log(this.transactionamount.split("EUR"));
+      const transactionAmount = this.transactionamount.split("€");
       const transactionData = {
-        paymentMode: this.paymentmode,
+        transactionPaymentMode: this.paymentmode,
         transactionType: this.transactiontype,
         transactionDate: this.transactiondate + " " + this.transactiontime,
-        transactionAmount: this.transactionamount,
+        transactionAmount: transactionAmount[0].trim(),
         transactionDescription: this.transactiondescription,
         transaction_category_id: this.transactioncategory
       };

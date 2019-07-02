@@ -95,10 +95,9 @@ const transactionsSchema = Joi.object().keys({
   transactionDescription: Joi.string()
     .min(5)
     .max(255)
-    .required(),
-  user_id: Joi.number()
-    .positive()
-    .integer()
+    .optional(),
+  transactionPaymentMode: Joi.string()
+    .alphanum()
     .required(),
   transaction_category_id: Joi.number()
     .positive()
