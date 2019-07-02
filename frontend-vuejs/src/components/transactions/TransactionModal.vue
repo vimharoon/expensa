@@ -21,11 +21,21 @@
               <div class="form-group">
                 <div class="d-flex justify-content-around">
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="transactiontype" checked />
+                    <input
+                      type="radio"
+                      value="expense"
+                      name="transactiontype"
+                      v-model="transactiontype"
+                    />
                     <span>Dépense</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="transactiontype" />
+                    <input
+                      type="radio"
+                      value="income"
+                      name="transactiontype"
+                      v-model="transactiontype"
+                    />
                     <span>Revenue</span>
                   </label>
                 </div>
@@ -33,45 +43,60 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="date" />
+                    <input class="md-form-control" type="date" v-model="transactiondate" />
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="time" />
+                    <input class="md-form-control" type="time" v-model="transactiontime" />
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="text" />
+                    <select class="md-form-control" v-model="transactioncategory">
+                      <option value>Choisir une catégorie</option>
+                      <option
+                        v-for="category in sortedTransactionOptions"
+                        v-bind:value="category.transaction_category_id"
+                        :key="category.transaction_category_id"
+                      >{{ category.transaction_category_name }}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="md-form">
-                    <input class="md-form-control" type="number" min="0" />
+                    <input
+                      class="md-form-control"
+                      type="text"
+                      pattern="([0-9])"
+                      @blur="onBlurHandler"
+                      @focus="onFocusHandler"
+                      placeholder="Entrer le montant"
+                      v-model="transactionamount"
+                    />
                   </div>
                 </div>
               </div>
               <div class="md-form">
-                <textarea class="md-form-control"></textarea>
+                <textarea class="md-form-control" v-model="transactiondescription"></textarea>
                 <label>description</label>
               </div>
               <div class="form-group mb-5">
                 <label>Mode de payment :</label>
                 <div class="d-flex justify-content-around">
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="paymentmode" checked />
-                    <span>Cash</span>
+                    <input type="radio" value="cash" name="paymentmode" v-model="paymentmode" />
+                    <span>En Espèces</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="paymentmode" />
-                    <span>Carte blue</span>
+                    <input type="radio" value="card" name="paymentmode" v-model="paymentmode" />
+                    <span>Carte Bancaire</span>
                   </label>
                   <label class="radio radio-inline radio-primary">
-                    <input type="radio" name="paymentmode" />
-                    <span>carte de crédit</span>
+                    <input type="radio" value="transfer" name="paymentmode" v-model="paymentmode" />
+                    <span>virement</span>
                   </label>
                 </div>
               </div>
@@ -79,7 +104,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-light" type="button" data-dismiss="modal">Annuler</button>
-            <button class="btn btn-primary" type="button">Sauvegarder</button>
+            <button class="btn btn-primary" @click="submitTransaction" type="button">Sauvegarder</button>
           </div>
         </div>
       </div>
@@ -99,10 +124,17 @@ export default {
   },
   data() {
     return {
-      taskId: "",
-      taskName: "",
-      taskDescription: "",
-      createTransaction: false
+      paymentmode: "",
+      transactionId: "",
+      transactiontype: "",
+      transactiondate: "",
+      transactiontime: "",
+      isInputActive: false,
+      transactionamount: "",
+      transactioncategory: "",
+      transactiondescription: "",
+      createTransaction: false,
+      transactionCategoryOption: []
     };
   },
   mounted() {
@@ -113,8 +145,44 @@ export default {
       console.log(transaction);
       this.createTransaction = false;
     });
+    this.$store
+      .dispatch("transactions/getAllTransactionsCategory")
+      .then(transactionCategory => {
+        this.transactionCategoryOption = transactionCategory;
+      });
   },
-  methods: {}
+  methods: {
+    submitTransaction() {
+      console.log(this.transactionamount.split("EUR"));
+      const transactionData = {
+        paymentMode: this.paymentmode,
+        transactionType: this.transactiontype,
+        transactionDate: this.transactiondate + " " + this.transactiontime,
+        transactionAmount: this.transactionamount,
+        transactionDescription: this.transactiondescription,
+        transaction_category_id: this.transactioncategory
+      };
+      console.log(transactionData);
+    },
+    onBlurHandler() {
+      this.transactionamount = this.format(this.transactionamount);
+    },
+    onFocusHandler() {
+      this.transactionamount = accounting.unformat(this.transactionamount);
+    },
+    format(value) {
+      return accounting.formatMoney(value, { symbol: "€", format: "%v %s" });
+    }
+  },
+  computed: {
+    sortedTransactionOptions() {
+      return this.transactionCategoryOption.filter((transaction, index) => {
+        return transaction.transaction_category_type
+          .toLowerCase()
+          .match(this.transactiontype.toLowerCase());
+      });
+    }
+  }
 };
 </script>
 

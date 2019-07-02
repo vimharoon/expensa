@@ -1,16 +1,11 @@
 'use strict'
 const Joi = require('@hapi/joi')
-const moment = require('moment')
 const transactionsModel = require('./../models/transactionsModel')
 const inputValidation = require('./../middlewares/input-validation')
-moment.locale('fr')
 
 // get all transactions
 const getTransactions = (req, res) => {
   transactionsModel.getTransactions(response => {
-    response.map(el => {
-      el.transaction_date = moment(el.transaction_date).format('L')
-    })
     res.status(200).send(response)
   }, req.userData.user.user_id)
 }

@@ -30,43 +30,28 @@
                 <table class="table table-bordered w-100" id="dt-base">
                   <thead class="thead-light">
                     <tr>
-                      <th class="sortable">
-                        Catégorie
-                        <span class="arrow"></span>
-                      </th>
-                      <th class="sortable">
-                        Date
-                        <span class="arrow"></span>
-                      </th>
-                      <th class="sortable">
-                        Mode de paiement
-                        <span class="arrow"></span>
-                      </th>
-                      <th class="sortable">
-                        Description
-                        <span class="arrow"></span>
-                      </th>
-                      <th class="sortable">
-                        Montant
-                        <!-- :class="currentSortDir === 'asc' ? 'desc' : 'asc'" -->
-                        <span class="arrow"></span>
-                      </th>
-                      <th class="sortable">
-                        Actions
-                        <span class="arrow"></span>
-                      </th>
+                      <th class="sortable">Catégorie</th>
+                      <th class="sortable">Date</th>
+                      <th class="sortable">Mode de paiement</th>
+                      <th class="sortable">Description</th>
+                      <th class="sortable">Montant</th>
+                      <th class="sortable">Actions</th>
+                      <!-- :class="currentSortDir === 'asc' ? 'desc' : 'asc'"
+                      <span class="arrow"></span>-->
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="trans in sortedTransactions" :key="trans.transaction_id">
                       <td>
-                        <i class="icofont-food-basket icofont-2x"></i>
+                        <i :class="trans.transaction_category_icon + ' icofont-2x'"></i>
                         {{ trans.transaction_category_name }}
                       </td>
                       <td>{{ trans.transaction_date }}</td>
                       <td>{{ trans.transaction_type }}</td>
                       <td>{{ trans.transaction_description }}</td>
-                      <td>{{ trans.transaction_amount }} €</td>
+                      <td>
+                        <strong class="text-danger">{{ trans.transaction_amount | toCurrency }}</strong>
+                      </td>
                       <td>
                         <div class="d-flex justify-content-around task-actions">
                           <a
@@ -99,10 +84,10 @@
             <div class="col-sm-12 col-md-7">
               <nav>
                 <ul class="pagination justify-content-end">
-                  <li class="page-item" @click="prevPage">
+                  <li class="page-item">
                     <a class="page-link previous">Précédent</a>
                   </li>
-                  <li class="page-item" @click="nextPage">
+                  <li class="page-item">
                     <a class="page-link next">Suivant</a>
                   </li>
                 </ul>
@@ -127,8 +112,6 @@ export default {
   data() {
     return {
       searchInput: "",
-      currentPage: 1,
-      rowsPerPage: 10,
       transactionModalTitle: ""
     };
   },
@@ -150,13 +133,6 @@ export default {
             icons: { success: "check" }
           });
         });
-    },
-    nextPage() {
-      if (this.currentPage * this.rowsPerPage < this.sortedTransactions.length)
-        this.currentPage++;
-    },
-    prevPage() {
-      if (this.currentPage > 1) this.currentPage--;
     }
   },
   mounted() {
@@ -165,19 +141,12 @@ export default {
   computed: {
     sortedTransactions() {
       return this.$store.getters["transactions/getAllTransactions"].filter(
-        transaction => {
+        (transaction, index) => {
           return transaction.transaction_category_name
             .toLowerCase()
             .match(this.searchInput.toLowerCase());
         }
       );
-      // .filter(
-      //   (row, index) => {
-      //     let start = (this.currentPage - 1) * this.rowsPerPage;
-      //     let end = this.currentPage * this.rowsPerPage;
-      //     if (index >= start && index < end) return true;
-      //   }
-      // );
     }
   }
 };

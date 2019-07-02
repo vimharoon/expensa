@@ -26,7 +26,18 @@ const datepickerOptions = {
   days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
   daysShort: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
   monthNames: [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre'
   ],
   colors: {
     selected: '#2949ef',
@@ -49,6 +60,18 @@ Validator.localize('fr', fr);
 Vue.component('apexchart', VueApexCharts);
 Vue.use(AirbnbStyleDatepicker, datepickerOptions);
 Vue.use(VueAWN, { position: 'top-right', maxNotifications: 4 });
+
+Vue.filter('toCurrency', (value) => {
+  if (typeof value !== 'number') {
+    return value;
+  }
+  const formatter = new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 0
+  });
+  return formatter.format(value);
+});
 
 VeeValidate.Validator.extend('verify_password', {
   getMessage: field => 'Le mot de passe doit contenir au moins: 1 lettre majuscule, 1 lettre minuscule et 1 chiffre.',
