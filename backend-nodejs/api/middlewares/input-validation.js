@@ -87,8 +87,8 @@ const transactionsSchema = Joi.object().keys({
     .min(3)
     .max(20)
     .required(),
-  transactionDate: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
+  transactionDate: Joi.date()
+    .iso()
     .required(),
   transactionAmount: Joi.number()
     .positive()

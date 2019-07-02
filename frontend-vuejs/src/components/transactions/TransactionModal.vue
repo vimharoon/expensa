@@ -113,6 +113,7 @@
 
 <script>
 import { EventBus } from "@/eventBus";
+import format from "date-fns/format";
 
 export default {
   props: {
@@ -156,7 +157,9 @@ export default {
       const transactionData = {
         transactionPaymentMode: this.paymentmode,
         transactionType: this.transactiontype,
-        transactionDate: this.transactiondate + " " + this.transactiontime,
+        transactionDate: format(
+          this.transactiondate + " " + this.transactiontime
+        ),
         transactionAmount: transactionAmount[0].trim(),
         transactionDescription: this.transactiondescription,
         transaction_category_id: this.transactioncategory
