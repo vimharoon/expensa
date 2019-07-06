@@ -16,7 +16,7 @@
                   v-model="email"
                   name="email"
                   v-validate="'required|email'"
-                >
+                />
                 <label>Email</label>
                 <span
                   v-show="errors.has('email')"
@@ -33,7 +33,7 @@
                   v-model="password"
                   name="mot de passe"
                   v-validate="'required|min:6|verify_password'"
-                >
+                />
                 <label>Mot de passe</label>
                 <span
                   v-show="errors.has('mot de passe')"
@@ -44,7 +44,7 @@
             </div>
             <div class="flexbox mb-5">
               <label class="ui-switch switch-solid small">
-                <input type="checkbox" checked>
+                <input type="checkbox" checked />
                 <span class="small"></span>
                 Se souvenir de moi
               </label>
@@ -63,11 +63,11 @@
           </div>
         </div>
       </div>
-      <router-link class="btn btn-link home-link" to="index.html">
+      <a class="btn btn-link home-link" href="https://expensa.haroonmohammad.com">
         <span class="btn-icon">
           <i class="la la-long-arrow-left font-20"></i>Retour à l'Accueil
         </span>
-      </router-link>
+      </a>
     </div>
   </div>
 </template>

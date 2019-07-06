@@ -17,12 +17,12 @@ const registerUser = (req, res) => {
         } else if (response.status === 4092) {
           return res.boom.conflict(response.message)
         }
-        mailService.welcomeMail(
-          response.data.email,
-          response.data.username,
-          response.data.token
-        )
-        delete response.data
+        // mailService.welcomeMail(
+        //   response.data.email,
+        //   response.data.username,
+        //   response.data.token
+        // )
+        // delete response.data
         res.status(201).send(response)
       }, values)
     } else {
@@ -39,7 +39,8 @@ const authenticateUser = (req, res) => {
     (err, values) => {
       if (err === null) {
         authModel.authenticate(response => {
-          if (!response.error && response.user.is_verified) {
+          if (!response.error) {
+            //  && response.user.is_verified
             delete response.error
             const payload = { user: response.user, message: response.message }
             const token = jwt.sign(

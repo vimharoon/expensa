@@ -1,12 +1,12 @@
 <template>
   <div class="page-wrapper">
-    <router-view name="auth"/>
+    <router-view name="auth" />
     <div v-if="isLoggedIn" class="content-wrapper">
       <side-bar></side-bar>
       <!-- CONTENT -->
       <div class="content-area">
         <nav-bar></nav-bar>
-        <router-view/>
+        <router-view />
         <!-- FOOTER -->
         <footer class="page-footer flexbox">
           <div class="text-muted">
@@ -38,14 +38,16 @@ export default {
     }
   },
   created() {
-    axios.interceptors.response.use(undefined, function(err) {
-      return new Promise(function(resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          // if you ever get an unauthorized, logout the user
-          this.$store.dispatch("auth/logout");
-        }
-        throw err;
-      });
+    axios.interceptors.response.use(undefined, err => {
+      if (err.message.includes("403")) {
+        // if you ever get an unauthorized, logout the user
+        this.$store.dispatch("auth/logout");
+        this.$awn.warning("Votre session a expiré veuillez vous connecter", {
+          icons: { warning: "exclamation" }
+        });
+        this.$router.push("/");
+      }
+      throw err;
     });
   }
 };
@@ -56,4 +58,3 @@ body {
   background-color: #f2f3fa;
 }
 </style>
-

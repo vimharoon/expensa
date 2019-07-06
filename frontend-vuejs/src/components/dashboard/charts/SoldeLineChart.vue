@@ -7,7 +7,20 @@
             <h5 class="box-title mb-2">Compte - Solde</h5>
           </div>
         </div>
-        <apexchart type="line" height="350" width="100%" :options="chartOptions" :series="series"/>
+        <div
+          v-if="getIncomesPerMonth[0].Jan === null"
+          class="text-center text-muted font-weight-strong"
+        >
+          <p>Aucune transaction n'a été réalisée pour le moment</p>
+        </div>
+        <apexchart
+          v-else
+          type="line"
+          height="350"
+          width="100%"
+          :options="chartOptions"
+          :series="chartSeries"
+        />
       </div>
     </div>
   </div>
@@ -15,25 +28,34 @@
 
 <script>
 export default {
-  data() {
-    return {
-      series: [
+  created() {
+    this.$store.dispatch("kpis/getIncomePerMonth");
+  },
+  computed: {
+    chartSeries() {
+      return [
         {
           name: "Solde",
-          data: [34, 43, 31, 63, 45, 75, 50, 77]
+          data: Object.values(this.getIncomesPerMonth[0])
         }
-      ],
-      chartOptions: {
+      ];
+    },
+    chartOptions() {
+      return {
         xaxis: {
           categories: [
-            "Jan 2019",
-            "Fév 2019",
-            "Mar 2019",
-            "Avr 2019",
-            "Mai 2019",
-            "Jui 2019",
-            "Jui 2019",
-            "Aoû 2019"
+            "Jan",
+            "Fév",
+            "Mar",
+            "Avr",
+            "Mai",
+            "Jui",
+            "Jui",
+            "Aoû",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
           ]
         },
         dataLabels: {
@@ -66,8 +88,11 @@ export default {
             }
           }
         }
-      }
-    };
+      };
+    },
+    getIncomesPerMonth() {
+      return this.$store.getters["kpis/getIncomesPerMonth"];
+    }
   }
 };
 </script>

@@ -6,12 +6,19 @@
           <div class="d-flex justify-content-between mb-4">
             <h5 class="box-title">Dépenses totales</h5>
           </div>
+          <div
+            v-if="!getExpensesByCategory.length"
+            class="text-center text-muted font-weight-strong"
+          >
+            <p>Aucune transaction n'a été réalisée pour le moment</p>
+          </div>
           <apexchart
+            v-else
             type="pie"
             height="350"
             width="100%"
-            :options="pieOptions"
-            :series="pieSeries"
+            :options="chartPieOptions"
+            :series="chartPieSeries"
           />
         </div>
       </div>
@@ -21,17 +28,22 @@
 
 <script>
 export default {
-  data() {
-    return {
-      pieSeries: [44, 55, 13, 43, 22],
-      pieOptions: {
-        labels: [
-          "Nourriture - 6,000 €",
-          "Loyer - 4,866 €",
-          "Divertissement - 4,160 €",
-          "Crédit - 4,844€",
-          "Transports - 2,480 €"
-        ],
+  created() {
+    this.$store.dispatch("kpis/getExpensesByCategory");
+  },
+  computed: {
+    chartPieSeries() {
+      const expensesAmount = this.getExpensesByCategory.map(el => {
+        return el.expense;
+      });
+      return expensesAmount;
+    },
+    chartPieOptions() {
+      const expensesLabel = this.getExpensesByCategory.map(el => {
+        return el.transaction_category_name + " - " + el.expense + " €";
+      });
+      return {
+        labels: expensesLabel,
         responsive: [
           {
             breakpoint: 480,
@@ -42,8 +54,11 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    },
+    getExpensesByCategory() {
+      return this.$store.getters["kpis/getExpensesByCategory"];
+    }
   }
 };
 </script>

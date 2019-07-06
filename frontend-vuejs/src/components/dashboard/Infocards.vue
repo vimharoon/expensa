@@ -4,7 +4,15 @@
       <div class="card">
         <div class="card-body">
           <h6 class="mb-3 font-15 text-muted font-weight-normal">REVENUES</h6>
-          <div class="h2 mb-0 font-weight-normal">8190 €</div>
+          <div
+            v-if="!getTransactionsInfosList[0].income"
+            class="h2 mb-0 font-weight-normal text-success"
+          >0 €</div>
+          <div
+            v-else
+            class="h2 mb-0 font-weight-normal text-success"
+          >{{ getTransactionsInfosList[0].income | toCurrency }}</div>
+
           <i class="la la-arrow-up top-widget-icon text-success"></i>
         </div>
       </div>
@@ -13,7 +21,15 @@
       <div class="card">
         <div class="card-body">
           <h6 class="mb-3 font-15 text-muted font-weight-normal">DEPENSES</h6>
-          <div class="h2 mb-0 font-weight-normal">7450 €</div>
+          <div
+            v-if="!getTransactionsInfosList[0].expense"
+            class="h2 mb-0 font-weight-normal text-danger"
+          >0 €</div>
+          <div
+            v-else
+            class="h2 mb-0 font-weight-normal text-danger"
+          >{{ getTransactionsInfosList[0].expense | toCurrency }}</div>
+
           <i class="la la-arrow-down top-widget-icon text-danger"></i>
         </div>
       </div>
@@ -22,7 +38,15 @@
       <div class="card">
         <div class="card-body">
           <h6 class="mb-3 font-15 text-muted font-weight-normal">SOLDE</h6>
-          <div class="h2 mb-0 font-weight-normal">740 €</div>
+          <div
+            v-if="!getTransactionsInfosList[0].transactions_number"
+            class="h2 mb-0 font-weight-normal text-primary"
+          >0 €</div>
+          <div
+            v-else
+            class="h2 mb-0 font-weight-normal text-primary"
+          >{{ getTransactionsInfosList[0].income - getTransactionsInfosList[0].expense | toCurrency }}</div>
+
           <i class="la la-money top-widget-icon text-primary"></i>
         </div>
       </div>
@@ -31,7 +55,15 @@
       <div class="card">
         <div class="card-body">
           <h6 class="mb-3 font-15 text-muted font-weight-normal">TRANSACTIONS</h6>
-          <div class="h2 mb-0 font-weight-normal">45</div>
+          <div
+            v-if="!getTransactionsInfosList[0].transactions_number"
+            class="h2 mb-0 font-weight-normal text-muted"
+          >0</div>
+          <div
+            v-else
+            class="h2 mb-0 font-weight-normal text-muted"
+          >{{ getTransactionsInfosList[0].transactions_number }}</div>
+
           <i class="la la-exchange top-widget-icon text-muted"></i>
         </div>
       </div>
@@ -40,7 +72,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created() {
+    this.$store.dispatch("kpis/getTransactionsInfos");
+  },
+  computed: {
+    getTransactionsInfosList() {
+      return this.$store.getters["kpis/getTransactionsInfos"];
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

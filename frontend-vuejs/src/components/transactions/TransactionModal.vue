@@ -227,7 +227,7 @@ export default {
       this.transactiondate = selectDate[0];
       this.transactiontime = selectTime[0];
       this.transactionamount = transaction.transaction_amount;
-      this.transactioncategory = transaction.transaction_category_name;
+      this.transactioncategory = transaction.transaction_category_id;
       this.transactiondescription = transaction.transaction_description;
       this.createTransaction = false;
     });
@@ -265,6 +265,9 @@ export default {
       });
     },
     _createTransaction(transactionData) {
+      transactionData.transactionAmount = accounting.unformat(
+        transactionData.transactionAmount
+      );
       this.$store
         .dispatch("transactions/createNewTransaction", transactionData)
         .then(response => {

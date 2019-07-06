@@ -17,17 +17,15 @@
                   src="https://picsum.photos/100/100"
                   alt="image"
                   width="120"
-                >
+                />
                 <span
                   class="badge-point badge-success avatar-badge"
                   style="bottom: 5px;right: 14px;height: 14px;width: 14px;"
                 ></span>
               </span>
-              <div class="h4">Johnatan Due</div>
-              <div class="text-muted mb-4">Web Developer</div>
-              <p
-                class="text-muted"
-              >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus repudiandae eveniet harum.</p>
+              <div class="h4">{{ this.$store.state.auth.user.username }}</div>
+              <div class="text-muted mb-4">-</div>
+              <p class="text-muted">{{ this.$store.state.auth.user.about }}</p>
             </div>
           </div>
           <div class="card">
@@ -100,7 +98,7 @@
                       src="https://picsum.photos/100/100"
                       alt="image"
                       width="40"
-                    >
+                    />
                     <span class="badge-point badge-warning avatar-badge"></span>
                   </div>
                   <div class="media-body">
@@ -120,7 +118,7 @@
                       src="https://picsum.photos/100/100"
                       alt="image"
                       width="40"
-                    >
+                    />
                     <span class="badge-point badge-warning avatar-badge"></span>
                   </div>
                   <div class="media-body">
@@ -144,7 +142,7 @@
                       src="https://picsum.photos/100/100"
                       alt="image"
                       width="40"
-                    >
+                    />
                     <span class="badge-point badge-success avatar-badge"></span>
                   </div>
                   <div class="media-body">
@@ -167,7 +165,7 @@
                       src="https://picsum.photos/100/100"
                       alt="image"
                       width="40"
-                    >
+                    />
                     <span class="badge-point badge-warning avatar-badge"></span>
                   </div>
                   <div class="media-body">
@@ -201,7 +199,7 @@
                       src="https://picsum.photos/100/100"
                       alt="image"
                       width="40"
-                    >
+                    />
                     <span class="badge-point badge-success avatar-badge"></span>
                   </div>
                   <div class="media-body">
@@ -232,7 +230,11 @@
                 <div class="d-flex justify-content-between">
                   <strong class="text-danger mt-2">Supprimer votre compte</strong>
                   <div class="text-muted font-13 ml-3" style="min-width: 80px;">
-                    <button class="btn btn-danger btn-rounded" type="button">Supprimer</button>
+                    <button
+                      class="btn btn-danger btn-rounded"
+                      @click="onDeleteUser"
+                      type="button"
+                    >Supprimer</button>
                   </div>
                 </div>
               </div>
@@ -243,3 +245,37 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    onDeleteUser() {
+      this.$awn.confirm(
+        "Voulez-vous supprimer votre compte Expensa.",
+        this.onClickOK,
+        this.onClickCancel,
+        {
+          labels: {
+            confirm: "Êtes vous sûrs ?"
+          }
+        }
+      );
+    },
+    onClickOK() {
+      this.$store
+        .dispatch("profile/deleteUser", this.$store.state.auth.user.user_id)
+        .then(response => {
+          this.$awn.success(response.message, {
+            icons: { success: "check" }
+          });
+          this.$store.dispatch("auth/logout");
+          this.$router.push("authentication");
+        });
+    },
+    onClickCancel() {
+      return false;
+    }
+  }
+};
+</script>
+

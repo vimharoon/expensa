@@ -7,7 +7,20 @@
             <h5 class="box-title mb-2">Revenus - Dépenses</h5>
           </div>
         </div>
-        <apexchart type="bar" height="350" width="100%" :options="barOptions" :series="barSeries"/>
+        <div
+          v-if="getMonthlyIncomeExpenses[0].Jan === null || getMonthlyIncomeExpenses[1].Jan === null"
+          class="text-center text-muted font-weight-strong"
+        >
+          <p>Aucune transaction n'a été réalisée pour le moment</p>
+        </div>
+        <apexchart
+          v-else
+          type="bar"
+          height="350"
+          width="100%"
+          :options="chartBarOptions"
+          :series="chartBarSeries"
+        />
       </div>
     </div>
   </div>
@@ -15,19 +28,24 @@
 
 <script>
 export default {
-  data() {
-    return {
-      barSeries: [
+  created() {
+    this.$store.dispatch("kpis/getMonthlyIncomeExpenses");
+  },
+  computed: {
+    chartBarSeries() {
+      return [
         {
           name: "Dépenses",
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          data: Object.values(this.getMonthlyIncomeExpenses[1])
         },
         {
           name: "Revenus",
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+          data: Object.values(this.getMonthlyIncomeExpenses[0])
         }
-      ],
-      barOptions: {
+      ];
+    },
+    chartBarOptions() {
+      return {
         plotOptions: {
           bar: {
             horizontal: false,
@@ -35,6 +53,7 @@ export default {
             columnWidth: "55%"
           }
         },
+        colors: ["#F44336", "#00e396"],
         stroke: {
           show: true,
           width: 4,
@@ -51,15 +70,18 @@ export default {
         },
         xaxis: {
           categories: [
-            "Feb",
+            "Jan",
+            "Fév",
             "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
+            "Avr",
+            "Mai",
+            "Jui",
+            "Jui",
+            "Aoû",
             "Sep",
-            "Oct"
+            "Oct",
+            "Nov",
+            "Dec"
           ]
         },
         tooltip: {
@@ -69,8 +91,11 @@ export default {
             }
           }
         }
-      }
-    };
+      };
+    },
+    getMonthlyIncomeExpenses() {
+      return this.$store.getters["kpis/getIncomeExpensesData"];
+    }
   }
 };
 </script>

@@ -9,130 +9,32 @@
           </div>
           <table class="table table-borderless cols-align-middle">
             <tbody>
-              <tr>
+              <div
+                v-if="!getLastTransactionsList.length"
+                class="text-center text-muted font-weight-strong"
+              >
+                <p>Aucune transaction n'a été réalisée pour le moment</p>
+              </div>
+              <tr v-for="transaction in getLastTransactionsList" :key="transaction.transaction_id">
                 <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
+                  <div>{{ transaction.transaction_date | formatDate }}</div>
                 </td>
                 <td>
-                  <i class="la la-arrow-up text-success"></i>
+                  <i
+                    :class="transaction.transaction_type === 'expense' ? 'la la-arrow-down text-warning' : 'la la-arrow-up text-success'"
+                  ></i>
                 </td>
                 <td>
-                  <div class="h6 mb-1 font-16">From John Due</div>
-                  <div class="text-muted">cash</div>
+                  <div class="h6 mb-1 font-16">{{ transaction.transaction_category_name }}</div>
+                  <div class="text-muted">{{ transaction.transaction_payment_mode | paymentMode }}</div>
                 </td>
                 <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
+                  <div class="h6 mb-1 font-16">{{ transaction.transaction_description }}</div>
                 </td>
                 <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-success">+ 2100.45 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-up text-success"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">From John Due</div>
-                  <div class="text-muted">cash</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-success">+ 3400.50 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-down text-warning"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">To John Due</div>
-                  <div class="text-muted">cash</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-danger">- 1250.50 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-down text-warning"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">To John Due</div>
-                  <div class="text-muted">cash</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-danger">- 1250.50 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-down text-success"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">From John Due</div>
-                  <div class="text-muted">cb</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-success">+ 3400.50 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-down text-warning"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">To John Due</div>
-                  <div class="text-muted">cash</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-danger">- 1250.50 USD</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center text-muted font-weight-strong">
-                  <div>DEC 12</div>
-                </td>
-                <td>
-                  <i class="la la-arrow-up text-success"></i>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">From John Due</div>
-                  <div class="text-muted">cash</div>
-                </td>
-                <td>
-                  <div class="h6 mb-1 font-16">sdfd fdsf fsd</div>
-                </td>
-                <td class="text-right">
-                  <div class="h6 mb-1 font-16 text-success">+ 3400.50 USD</div>
+                  <div
+                    :class="transaction.transaction_type === 'expense' ? 'h6 mb-1 font-16 text-danger' : 'h6 mb-1 font-16 text-success'"
+                  >{{ transaction.transaction_type === 'expense' ? '-' : '+' }}{{ transaction.transaction_amount | toCurrency }}</div>
                 </td>
               </tr>
             </tbody>
@@ -142,3 +44,34 @@
     </div>
   </div>
 </template>
+
+<script>
+import format from "date-fns/format";
+import frLocal from "date-fns/locale/fr";
+
+export default {
+  created() {
+    this.$store.dispatch("kpis/getLastTransactions");
+  },
+  computed: {
+    getLastTransactionsList() {
+      return this.$store.getters["kpis/getLastTransactionsList"];
+    }
+  },
+  filters: {
+    formatDate(value) {
+      if (!value) return "";
+      return format(value, "DD MMMM", { locale: frLocal });
+    },
+    paymentMode(value) {
+      if (value === "cash") {
+        return "Espèces";
+      } else if (value === "card") {
+        return "Carte Bancaire";
+      } else if (value === "transfer") {
+        return "Virement";
+      }
+    }
+  }
+};
+</script>

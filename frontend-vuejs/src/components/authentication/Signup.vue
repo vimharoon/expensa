@@ -16,7 +16,7 @@
                   v-model="username"
                   name="nom d'utilisateur"
                   v-validate="'required|min:3|max:20|alpha_num'"
-                >
+                />
                 <label>Nom d'utilisateur</label>
                 <span
                   v-show="errors.has('nom d\'utilisateur')"
@@ -33,7 +33,7 @@
                   v-model="email"
                   name="email"
                   v-validate="'required|email'"
-                >
+                />
                 <label>Email</label>
                 <span
                   v-show="errors.has('email')"
@@ -51,7 +51,7 @@
                   name="mot de passe"
                   v-validate="'required|min:6|verify_password'"
                   ref="mot de passe"
-                >
+                />
                 <label>Mot de passe</label>
                 <span
                   v-show="errors.has('mot de passe')"
@@ -68,7 +68,7 @@
                   name="confirmer mot de passe"
                   v-validate="'required|confirmed:mot de passe'"
                   data-vv-as="confirmer mot de passe"
-                >
+                />
                 <label>Confirmer mot de passe</label>
                 <span
                   v-show="errors.has('confirmer mot de passe')"
@@ -79,7 +79,7 @@
             </div>
             <div class="flexbox mb-5">
               <label class="checkbox checkbox-primary mt-2">
-                <input type="checkbox" checked>
+                <input type="checkbox" checked />
                 <span class="small">J'accepte les conditions d'utilisation</span>
               </label>
               <button
@@ -97,11 +97,11 @@
           </div>
         </div>
       </div>
-      <router-link class="btn btn-link home-link" to="index.html">
+      <a class="btn btn-link home-link" href="https://expensa.haroonmohammad.com">
         <span class="btn-icon">
           <i class="la la-long-arrow-left font-20"></i>Retour à l'Accueil
         </span>
-      </router-link>
+      </a>
     </div>
   </div>
 </template>
@@ -131,7 +131,7 @@ export default {
           this.$store
             .dispatch("auth/register", userData)
             .then(response => {
-              this.$router.push("lockscreen");
+              this.switchActiveComponent();
               this.$awn.success(response.data.message, {
                 icons: { success: "check" }
               });
